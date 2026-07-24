@@ -7,15 +7,19 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import LogoutView as LogoutViewBase
 from django.contrib.messages.views import SuccessMessageMixin
+from django.conf import settings
 from django.core.exceptions import BadRequest
+from django.core.files.storage import FileSystemStorage, default_storage
 from django.forms import Form
-from django.http import HttpResponseForbidden
+from django.http import FileResponse, Http404, HttpResponseForbidden
 from django.middleware.csrf import REASON_BAD_ORIGIN
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.utils import translation
+from django.utils.cache import patch_cache_control
 from django.utils.decorators import method_decorator
+from django.views.static import serve as serve_static_file
 from django.utils.text import format_lazy
 from django.utils.translation import gettext as _, gettext_lazy
 from django.views import csrf
@@ -298,3 +302,34 @@ class Welcome(LoginRequiredMixin, TemplateView):
     """
 
     template_name = "babybuddy/welcome.html"
+
+
+class ProtectedMediaView(LoginRequiredMixin, View):
+    """
+    Serves user uploaded media (child photos, note images and the thumbnails
+    generated from them) to logged in users only.
+
+    Uploaded file names are predictable - a child photo keeps the name of the
+    file that was uploaded - so exposing the media directory through the web
+    server makes those images fetchable by anyone who can guess a name. Routing
+    media through this view keeps them behind authentication.
+    """
+
+    def get(self, request, path):
+        storage = default_storage
+
+        if isinstance(storage, FileSystemStorage):
+            # django.views.static.serve resolves the path with safe_join, so
+            # "../" traversal out of MEDIA_ROOT raises SuspiciousFileOperation.
+            response = serve_static_file(
+                request, path, document_root=settings.MEDIA_ROOT
+            )
+        else:
+            # Remote storage backends (e.g. S3) have no local document root.
+            if not storage.exists(path):
+                raise Http404(_("No file found."))
+            response = FileResponse(storage.open(path, "rb"))
+
+        # Allow the browser to cache the image, but never a shared proxy.
+        patch_cache_control(response, private=True, max_age=3600)
+        return response

@@ -1,0 +1,37 @@
+# Caddy reverse proxy for Baby Buddy.
+#
+# Caddy terminates TLS and is the only service published to the network. It
+# always sets X-Forwarded-Proto, X-Forwarded-For and X-Forwarded-Host, and it
+# overwrites any values supplied by the client, so those headers cannot be
+# spoofed. Baby Buddy trusts them via SECURE_PROXY_SSL_HEADER.
+#
+# SITE_ADDRESS controls both the hostname and the certificate strategy:
+#   babybuddy.example.com   -> automatic public certificate from Let's Encrypt
+#   https://babybuddy.local -> add `tls internal` below for a local CA cert
+
+{
+	# Set ACME_EMAIL in .env to receive certificate expiry notices.
+	email {$ACME_EMAIL:admin@localhost}
+
+	# Do not advertise the server version.
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	# Uncomment for a LAN-only deployment with a Caddy-issued local CA
+	# certificate instead of a publicly trusted one.
+	# tls internal
+
+	log {
+		output stdout
+		format console
+	}
+
+	reverse_proxy babybuddy:8000 {
+		header_up X-Real-IP {remote_host}
+	}
+}

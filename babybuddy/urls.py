@@ -57,5 +57,17 @@ urlpatterns = [
     path("", include("reports.urls", namespace="reports")),
 ]
 
+# Serve uploaded media through a login-required view. This must be registered
+# before the DEBUG-only static handler below so it takes precedence.
+if settings.BABY_BUDDY["SERVE_MEDIA_AUTHENTICATED"]:
+    urlpatterns.insert(
+        0,
+        path(
+            "{}<path:path>".format(settings.MEDIA_URL.lstrip("/")),
+            views.ProtectedMediaView.as_view(),
+            name="protected-media",
+        ),
+    )
+
 if settings.DEBUG:  # pragma: no cover
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

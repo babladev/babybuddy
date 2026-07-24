@@ -1,12 +1,40 @@
 # Deployment
 
-The default username and password for Baby Buddy is `admin`/`admin`. For any
-deployment, **log in and change the default password immediately**.
+An initial superuser is created the first time migrations run. Set
+`BABYBUDDY_ADMIN_USERNAME` (default `admin`) and `BABYBUDDY_ADMIN_PASSWORD` to choose the
+credentials. If no password is provided a random one is generated and printed once to the
+`migrate` output, in which case **log in and change it immediately** - anyone with access
+to the logs can use it.
 
 Many of Baby Buddy's configuration settings can be controlled using environment
 variables - see [Configuration](../configuration/intro.md) for detailed information.
 
-## Docker
+## Docker Compose (this repository)
+
+The repository includes a `Dockerfile` and `docker-compose.yml` that build Baby Buddy
+from source and run it behind [Caddy](https://caddyserver.com/), which terminates TLS and
+sets the forwarded headers Baby Buddy expects.
+
+```shell
+cp .env.example .env
+# Set at least SECRET_KEY, ALLOWED_HOSTS, SITE_ADDRESS and CSRF_TRUSTED_ORIGINS.
+editor .env
+docker compose up -d --build
+```
+
+Notes on this configuration:
+
+- The application container is not published to the network. All traffic arrives through
+  Caddy on ports 80 and 443.
+- The image runs as UID/GID 1000 with a read-only root filesystem. The bind mount at
+  `./babybuddy-data` holds the SQLite database and uploaded media and must be writable by
+  that user (`sudo chown -R 1000:1000 ./babybuddy-data`).
+- PostgreSQL is available as an opt-in profile:
+  `docker compose --profile postgres up -d`, with `DATABASE_URL` set in `.env`.
+- Run management commands through the entrypoint, for example
+  `docker compose exec babybuddy /usr/local/bin/entrypoint.sh manage createuser --username someone`.
+
+## Docker (LinuxServer.io)
 
 Baby Buddy relies on the [LinuxServer.io](https://www.linuxserver.io/) community
 for a multi-architecture container with strong support. See

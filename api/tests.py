@@ -16,7 +16,10 @@ class TestBase:
         timer_test_data = {}
 
         def setUp(self):
-            self.client.login(username="admin", password="admin")
+            # The initial superuser is created by the `migrate` command with a
+            # password that is not known here, so authenticate directly rather
+            # than through a hard coded default password.
+            self.client.force_login(get_user_model().objects.get(username="admin"))
 
         def test_options(self):
             response = self.client.options(self.endpoint)
@@ -944,7 +947,7 @@ class TestProfileAPITestCase(APITestCase):
     endpoint = reverse("api:profile")
 
     def setUp(self):
-        self.client.login(username="admin", password="admin")
+        self.client.force_login(get_user_model().objects.get(username="admin"))
 
     def test_get(self):
         response = self.client.get(self.endpoint)

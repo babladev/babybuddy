@@ -1,0 +1,58 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+.github
+
+# Local environments and secrets
+.env
+.env.*
+!.env.example
+.venv
+venv
+Pipfile.lock
+
+# Dependencies (installed inside the image)
+node_modules
+
+# Build output (regenerated inside the image)
+static
+*/static
+babybuddy/static
+core/static
+dashboard/static
+reports/static
+site
+
+# Local application data - never bake this into an image
+data
+media
+
+# Tooling and editor state
+.coverage
+.coveragerc
+htmlcov
+.idea
+.vscode
+.devcontainer.json
+.direnv
+.devenv*
+devenv.local.nix
+.pre-commit-config.yaml
+.DS_Store
+**/__pycache__
+*.pyc
+
+# Deployment configuration for other platforms
+.buildpacks
+.do
+Procfile
+Procfile.sh
+nixpacks.toml
+runtime.txt
+terraform
+docs
+mkdocs.yml
+
+# Local settings modules (production settings come from the environment)
+babybuddy/settings/production.py

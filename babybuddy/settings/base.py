@@ -259,7 +259,7 @@ WHITENOISE_ROOT = os.path.join(BASE_DIR, "static", "babybuddy", "root")
 # Media files (User uploaded content)
 # https://docs.djangoproject.com/en/5.0/topics/files/
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = os.environ.get("MEDIA_ROOT") or os.path.join(BASE_DIR, "media")
 
 MEDIA_URL = "media/"
 
@@ -299,11 +299,26 @@ if os.environ.get("EMAIL_HOST"):
 if os.environ.get("SECURE_PROXY_SSL_HEADER"):
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
+# https://docs.djangoproject.com/en/5.0/ref/settings/#secure-ssl-redirect
+# Redirect all HTTP requests to HTTPS. Leave disabled when the reverse proxy
+# already performs the redirect, to avoid a redundant round trip.
+SECURE_SSL_REDIRECT = bool(strtobool(os.environ.get("SECURE_SSL_REDIRECT") or "False"))
+
+# https://docs.djangoproject.com/en/5.0/ref/settings/#secure-hsts-seconds
+# HTTP Strict Transport Security. Browsers cache this value, so raise it
+# gradually (e.g. 300 -> 31536000) once HTTPS is confirmed to work.
+SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS") or 0)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = bool(
+    strtobool(os.environ.get("SECURE_HSTS_INCLUDE_SUBDOMAINS") or "False")
+)
+SECURE_HSTS_PRELOAD = bool(strtobool(os.environ.get("SECURE_HSTS_PRELOAD") or "False"))
+
 # https://docs.djangoproject.com/en/5.0/topics/http/sessions/#settings
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = bool(
     strtobool(os.environ.get("SESSION_COOKIE_SECURE") or "False")
 )
+SESSION_COOKIE_AGE = int(os.environ.get("SESSION_COOKIE_AGE") or 1209600)
 
 # https://docs.djangoproject.com/en/5.0/ref/csrf/#settings
 CSRF_COOKIE_HTTPONLY = True
@@ -360,6 +375,35 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 100,
 }
 
+# API rate limiting. django-axes only protects the login form, so without this
+# an exposed API token endpoint can be hammered without limit. Set either rate
+# to an empty value to disable that throttle.
+API_THROTTLE_RATE_ANON = os.environ.get("API_THROTTLE_RATE_ANON", "20/min") or None
+API_THROTTLE_RATE_USER = os.environ.get("API_THROTTLE_RATE_USER", "1000/hour") or None
+
+if API_THROTTLE_RATE_ANON or API_THROTTLE_RATE_USER:
+    REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = list(
+        filter(
+            None,
+            [
+                (
+                    "rest_framework.throttling.AnonRateThrottle"
+                    if API_THROTTLE_RATE_ANON
+                    else None
+                ),
+                (
+                    "rest_framework.throttling.UserRateThrottle"
+                    if API_THROTTLE_RATE_USER
+                    else None
+                ),
+            ],
+        )
+    )
+    REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {
+        "anon": API_THROTTLE_RATE_ANON,
+        "user": API_THROTTLE_RATE_USER,
+    }
+
 # Import/Export configuration
 # See https://django-import-export.readthedocs.io/
 
@@ -401,6 +445,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 BABY_BUDDY = {
     "ALLOW_UPLOADS": bool(strtobool(os.environ.get("ALLOW_UPLOADS") or "True")),
     "READ_ONLY_GROUP_NAME": "read_only",
+    # Serve uploaded media (child photos, note images) through a
+    # login-required view instead of relying on the web server to expose the
+    # media directory. Disable only if a proxy serves MEDIA_URL itself.
+    "SERVE_MEDIA_AUTHENTICATED": bool(
+        strtobool(os.environ.get("SERVE_MEDIA_AUTHENTICATED") or "True")
+    ),
 }
 
 # Home assistant specific configuration

@@ -142,7 +142,9 @@ instructive for how to add it to the NGINX site configuration.
 
 If Baby Buddy is already hosted in a Docker container the proxy (NGINX) can be hosted
 there as well. The configuration provided here assumes the `docker-compose.yml` example
-from the [Docker deployment method](deployment.md#docker) is used.
+from the [LinuxServer.io Docker deployment method](deployment.md#docker-linuxserverio) is
+used. The [Docker Compose configuration in this repository](deployment.md#docker-compose-this-repository)
+already includes a TLS-terminating proxy, so none of the steps below are needed for it.
 
 ### Add NGINX service
 

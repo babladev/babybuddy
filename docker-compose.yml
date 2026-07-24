@@ -1,0 +1,98 @@
+# Baby Buddy self-hosted stack.
+#
+#   1. cp .env.example .env
+#   2. Fill in SECRET_KEY, ALLOWED_HOSTS, SITE_ADDRESS and CSRF_TRUSTED_ORIGINS
+#   3. docker compose up -d --build
+#
+# Only Caddy is published to the network. The application container is reachable
+# solely from the internal compose network, so it is never exposed over plain
+# HTTP.
+
+name: babybuddy
+
+services:
+  babybuddy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: babybuddy:local
+    container_name: babybuddy
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # SQLite database and uploaded media. Must be writable by uid/gid 1000.
+      - ./babybuddy-data:/data
+    # No `ports` entry on purpose: reach the app through Caddy only.
+    expose:
+      - "8000"
+    # Hardening: no privilege escalation, no extra capabilities, immutable
+    # filesystem apart from the data volume and a small tmpfs for scratch files.
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    networks:
+      - babybuddy
+
+  caddy:
+    image: caddy:2.10-alpine
+    container_name: babybuddy-caddy
+    restart: unless-stopped
+    depends_on:
+      - babybuddy
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:?SITE_ADDRESS must be set in .env}
+      ACME_EMAIL: ${ACME_EMAIL:-admin@localhost}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - babybuddy
+
+  # Optional PostgreSQL backend. Enable with:
+  #   docker compose --profile postgres up -d
+  # and set DATABASE_URL=postgres://babybuddy:<password>@db:5432/babybuddy
+  db:
+    image: postgres:17-alpine
+    container_name: babybuddy-db
+    profiles:
+      - postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-babybuddy}
+      POSTGRES_USER: ${POSTGRES_USER:-babybuddy}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-babybuddy} -d ${POSTGRES_DB:-babybuddy}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - babybuddy
+
+networks:
+  babybuddy:
+    driver: bridge
+
+volumes:
+  caddy-data:
+  caddy-config:
+  postgres-data:

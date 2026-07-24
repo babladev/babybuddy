@@ -28,3 +28,12 @@ DBSETTINGS_USE_CACHE = False
 # We want to test the home assistant middleware
 
 ENABLE_HOME_ASSISTANT_SUPPORT = True
+
+# Django Rest Framework
+# https://www.django-rest-framework.org/api-guide/throttling/
+#
+# Throttling is disabled for tests: the suite issues many requests in quick
+# succession and rate limits would make results depend on wall-clock timing.
+
+REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = []
+REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {}
