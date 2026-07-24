@@ -1,7 +1,7 @@
-@use 'sass:map';
-
 #timer-status {
     &.timer-stopped {
-        color: map.get($theme-colors, 'dark');
+        // Must stay legible in both colour schemes, so this follows the body
+        // text colour rather than a fixed dark value.
+        color: var(--bs-secondary-color);
     }
 }

@@ -3,9 +3,33 @@
 {% get_current_locale as LOCALE %}
 {% get_current_timezone as TIMEZONE %}
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+{% comment %}
+Anonymous visitors have no settings object, so firstof falls through to "auto".
+{% endcomment %}
+{% firstof user.settings.theme "auto" as theme_preference %}
+<html lang="{{ LANGUAGE_CODE }}"
+      data-bb-theme-preference="{{ theme_preference }}"
+      {% if theme_preference != "auto" %}data-bs-theme="{{ theme_preference }}"{% endif %}>
     <head>
         <meta charset="utf-8" />
+        {% comment %}
+        Resolve the colour scheme before the first paint. Running this inline and
+        synchronously is what prevents a flash of the wrong scheme on load, so it
+        cannot be moved into an external script.
+        {% endcomment %}
+        <script>
+      (function () {
+        var root = document.documentElement;
+        var preference = root.getAttribute("data-bb-theme-preference") || "auto";
+        var resolved = preference;
+        if (preference === "auto") {
+          resolved = window.matchMedia("(prefers-color-scheme: light)").matches
+            ? "light"
+            : "dark";
+        }
+        root.setAttribute("data-bs-theme", resolved);
+      })();
+        </script>
         <title>
             {% block title %}{% endblock %}
         | Baby Buddy</title>
@@ -27,29 +51,45 @@
         <link rel="stylesheet" href="{% static "babybuddy/css/app.css" %}" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content="Baby Buddy" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="application-name" content="Baby Buddy" />
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="msapplication-navbutton-color" content="#37abe9">
         <meta name="msapplication-starturl" content="/">
         <meta name="msapplication-TileColor" content="#37abe9" />
-        <meta name="theme-color" content="#37abe9" />
+        <meta name="color-scheme" content="light dark" />
+        <meta name="theme-color"
+              content="#f2f2f7"
+              media="(prefers-color-scheme: light)" />
+        <meta name="theme-color"
+              content="#000000"
+              media="(prefers-color-scheme: dark)" />
         <meta name="viewport"
-              content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+              content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
     </head>
     <body>
         {% block nav %}{% endblock %}
         {% block breadcrumb_nav %}
-            <nav aria-label="breadcrumb" role="navigation">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href={% url "babybuddy:root-router" %}>{% trans "Home" %}</a>
-                    </li>
-                    {% block breadcrumbs %}{% endblock %}
-                </ol>
-            </nav>
+            <div class="bb-page pt-3">
+                <nav aria-label="breadcrumb" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href={% url "babybuddy:root-router" %}>{% trans "Home" %}</a>
+                        </li>
+                        {% block breadcrumbs %}{% endblock %}
+                    </ol>
+                </nav>
+            </div>
         {% endblock %}
         {% block page %}{% endblock %}
+        {% if user.is_authenticated %}
+            {% block tabbar %}
+                {% include "babybuddy/tabbar.html" %}
+            {% endblock %}
+            {% block fab %}
+                {% include "babybuddy/fab.html" %}
+            {% endblock %}
+        {% endif %}
         <script src="{% static "babybuddy/js/vendor.js" %}"></script>
         <script src="{% static "babybuddy/js/app.js" %}"></script>
         {% if user.is_authenticated %}<script>BabyBuddy.PullToRefresh.init()</script>{% endif %}

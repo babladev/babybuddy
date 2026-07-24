@@ -1,3 +1,71 @@
+// Child summary cards on the dashboard.
+
+.bb-child-card {
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 1.5rem;
+    }
+}
+
+.bb-child-card__photo {
+    display: block;
+    margin-bottom: 0.875rem;
+    line-height: 0;
+
+    .child-photo {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        box-shadow: $box-shadow-sm;
+        transition: $transition-base;
+    }
+
+    &:hover .child-photo,
+    &:focus .child-photo {
+        transform: scale(1.04);
+    }
+}
+
+.bb-child-card__name {
+    margin-bottom: 0.25rem;
+    font-size: $h4-font-size;
+    font-weight: $font-weight-semibold;
+    letter-spacing: -0.02em;
+}
+
+.bb-child-card__meta {
+    margin-bottom: 1rem;
+    color: var(--bs-secondary-color);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.bb-child-card__born {
+    font-size: 0.8125rem;
+    opacity: 0.8;
+}
+
+// Action buttons read as one rounded segmented control.
 .child-actions {
     flex-wrap: wrap;
+    gap: 0.25rem;
+    justify-content: center;
+    padding: 0.25rem;
+    border-radius: $border-radius-pill;
+    background-color: var(--bb-fill-subtle);
+
+    .btn {
+        border: 0;
+        border-radius: $border-radius-pill;
+        color: var(--bs-secondary-color);
+        background-color: transparent;
+
+        &:hover,
+        &:focus {
+            color: $primary;
+            background-color: var(--bb-surface-raised);
+        }
+    }
 }

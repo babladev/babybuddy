@@ -1,0 +1,20 @@
+{% load i18n %}
+{% comment %}
+Floating action button for logging an activity. Hidden entirely for users
+without permission to create anything, since it would open an empty menu.
+{% endcomment %}
+{% if perms.core.add_feeding or perms.core.add_diaperchange or perms.core.add_sleep or perms.core.add_tummytime or perms.core.add_note %}
+    <div class="bb-fab-container dropup">
+        <button class="btn bb-fab"
+                type="button"
+                id="bb-fab-toggle"
+                data-bs-toggle="dropdown"
+                data-bs-offset="0,12"
+                aria-expanded="false"
+                aria-label="{% trans 'Log an activity' %}">
+            <i class="icon-add" aria-hidden="true"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-end bb-fab__menu"
+             aria-labelledby="bb-fab-toggle">{% include "babybuddy/quick-add-menu.html" %}</div>
+    </div>
+{% endif %}

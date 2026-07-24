@@ -1,0 +1,229 @@
+// Application shell: top navigation bar, mobile tab bar and page container.
+// Desktop keeps a translucent top bar. On phones the primary destinations move
+// to a bottom tab bar within thumb reach, and the top bar keeps only the brand,
+// context and overflow menu.
+
+// Height of the mobile tab bar, excluding the safe area inset.
+$bb-tabbar-height: 3.5rem;
+
+:root {
+    --bb-tabbar-height: #{$bb-tabbar-height};
+    --bb-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+// ---------------------------------------------------------------------------
+// Top navigation bar
+// ---------------------------------------------------------------------------
+
+.navbar.bb-navbar {
+    padding-right: max(0.5rem, env(safe-area-inset-right));
+    padding-left: max(0.5rem, env(safe-area-inset-left));
+    border-bottom: 1px solid var(--bb-chrome-border);
+    background-color: var(--bb-chrome-bg);
+
+    // Frosted glass. The fallback background above keeps it legible where
+    // backdrop-filter is unsupported.
+    @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
+        backdrop-filter: var(--bb-backdrop-blur);
+        /* stylelint-disable-next-line property-no-vendor-prefix -- required for iOS below 18 */
+        -webkit-backdrop-filter: var(--bb-backdrop-blur);
+    }
+
+    .navbar-brand {
+        font-weight: $font-weight-semibold;
+        letter-spacing: -0.02em;
+    }
+
+    .nav-link {
+        padding-top: 0.4rem;
+        padding-bottom: 0.4rem;
+        border-radius: $border-radius-sm;
+        transition: $transition-base;
+
+        &:hover,
+        &:focus {
+            background-color: var(--bb-fill-subtle);
+        }
+    }
+
+    .nav-item.active > .nav-link,
+    .nav-link.active {
+        background-color: var(--bb-fill-strong);
+    }
+
+    // The collapsed menu becomes a rounded sheet rather than a full-bleed block.
+    .navbar-collapse.show,
+    .navbar-collapse.collapsing {
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+        border-radius: $border-radius-lg;
+        background-color: var(--bb-surface);
+    }
+}
+
+.navbar-toggler {
+    border: 0;
+    border-radius: $border-radius-sm;
+    padding: 0.35rem 0.5rem;
+
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Mobile tab bar
+// ---------------------------------------------------------------------------
+
+.bb-tabbar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $zindex-fixed;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    height: calc(var(--bb-tabbar-height) + var(--bb-safe-area-bottom));
+    padding-bottom: var(--bb-safe-area-bottom);
+    border-top: 1px solid var(--bb-chrome-border);
+    background-color: var(--bb-chrome-bg);
+
+    @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
+        backdrop-filter: var(--bb-backdrop-blur);
+        /* stylelint-disable-next-line property-no-vendor-prefix -- required for iOS below 18 */
+        -webkit-backdrop-filter: var(--bb-backdrop-blur);
+    }
+
+    @include media-breakpoint-up(md) {
+        display: none;
+    }
+}
+
+.bb-tabbar__item {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 0.125rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.125rem;
+    color: var(--bs-secondary-color);
+    font-size: 0.625rem;
+    font-weight: $font-weight-medium;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition: $transition-base;
+
+    i {
+        font-size: 1.35rem;
+        line-height: 1;
+    }
+
+    &:hover,
+    &:focus {
+        color: var(--bs-body-color);
+        text-decoration: none;
+    }
+
+    &.active {
+        color: $primary;
+    }
+}
+
+// Keep the tab bar clear of page content and of the fixed form submit button.
+@include media-breakpoint-down(md) {
+    body {
+        padding-bottom: calc(var(--bb-tabbar-height) + var(--bb-safe-area-bottom));
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Page container
+// ---------------------------------------------------------------------------
+
+.bb-page {
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+
+    @include media-breakpoint-up(lg) {
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
+    }
+}
+
+// Breadcrumbs act as a lightweight page title area.
+.breadcrumb {
+    align-items: baseline;
+    margin-bottom: 0;
+    font-size: $breadcrumb-font-size;
+
+    .breadcrumb-item.fw-bold {
+        color: var(--bs-body-color);
+        font-size: 1.125rem;
+        font-weight: $font-weight-semibold !important;
+        letter-spacing: -0.02em;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Appearance switcher (segmented control)
+// ---------------------------------------------------------------------------
+
+.bb-theme-toggle {
+    display: flex;
+    gap: 0.125rem;
+    padding: 0.1875rem;
+    margin: 0.25rem 0.75rem 0.5rem;
+    border-radius: $border-radius-pill;
+    background-color: var(--bb-fill-subtle);
+}
+
+.bb-theme-toggle__form {
+    display: flex;
+    flex: 1 1 0;
+}
+
+.bb-theme-toggle__option {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem 0.5rem;
+    border: 0;
+    border-radius: $border-radius-pill;
+    color: var(--bs-secondary-color);
+    background-color: transparent;
+    transition: $transition-base;
+
+    &:hover,
+    &:focus {
+        color: var(--bs-body-color);
+    }
+
+    &.active {
+        color: var(--bs-body-color);
+        background-color: var(--bb-surface-raised);
+        box-shadow: $box-shadow-sm;
+    }
+}
+
+// Outside the nav dropdown the control should not stretch across the page.
+.bb-theme-toggle-inline .bb-theme-toggle {
+    max-width: 12rem;
+    margin: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Login and password reset pages
+// ---------------------------------------------------------------------------
+
+.bb-auth-page {
+    max-width: 30rem;
+}
+
+.bb-auth-card {
+    border-radius: $border-radius-xl;
+    box-shadow: $box-shadow;
+}

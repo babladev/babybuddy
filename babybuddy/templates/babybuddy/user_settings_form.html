@@ -10,6 +10,21 @@
 {% block content %}
     <h1>{% trans "User Settings" %}</h1>
     <div class="container-fluid">
+        {% comment %}
+        The appearance control lives outside the settings form: it posts to its
+        own endpoint so the scheme can change without saving anything else, and
+        nesting one form inside another is not valid HTML.
+        {% endcomment %}
+        <fieldset class="mb-4">
+            <legend>{% trans "Appearance" %}</legend>
+            <div class="row">
+                <span class="col-sm-2 col-form-label">{% trans "Theme" %}</span>
+                <div class="col-sm-10">
+                    <div class="bb-theme-toggle-inline">{% include "babybuddy/theme-toggle.html" %}</div>
+                    <div class="form-text">{% trans '"Match system" follows the light or dark setting of your device.' %}</div>
+                </div>
+            </div>
+        </fieldset>
         <form role="form" method="post">
             {% csrf_token %}
             {% if form.non_field_errors %}

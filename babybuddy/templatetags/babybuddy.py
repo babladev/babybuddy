@@ -12,6 +12,7 @@ from django.utils.translation import to_locale, get_language, gettext_lazy as _
 from axes.helpers import get_lockout_message
 from axes.models import AccessAttempt
 
+from babybuddy.models import Settings
 from core.models import Child
 
 register = template.Library()
@@ -106,3 +107,13 @@ def confirm_unlock_text(object):
             "name": format_html('<span class="text-info">{}</span>', str(object)),
         }
     )
+
+
+@register.simple_tag()
+def theme_choices():
+    """
+    Get the available appearance (light/dark) options.
+
+    :return: list of (value, label) tuples.
+    """
+    return Settings._meta.get_field("theme").choices

@@ -20,17 +20,21 @@
     pointer-events: none;
 }
 
-// Use a full width, fixed button on smaller screens.
+// Use a wide, fixed button on smaller screens. It floats above the tab bar
+// rather than sitting flush against the bottom edge of the viewport.
 .submit-primary {
-    display: block;
-    border-radius: 0;
-    width: 100%;
-    padding: 1rem;
     position: fixed;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    right: max(0.75rem, env(safe-area-inset-right));
+    bottom: calc(var(--bb-tabbar-height) + var(--bb-safe-area-bottom) + 0.75rem);
+    left: max(0.75rem, env(safe-area-inset-left));
     z-index: 1030;
+    display: block;
+    width: auto;
+    padding: 0.875rem;
+    border-radius: $border-radius-pill;
+    box-shadow: $box-shadow-lg;
+    font-size: 1rem;
+    font-weight: $font-weight-semibold;
 }
 
 .pill-container {
@@ -59,11 +63,16 @@
 @include media-breakpoint-up(md) {
     // Restore regular inline button on larger screens.
     .submit-primary {
-        display: inline-block;
-        border-radius: $btn-border-radius;
-        width: auto;
-        padding: 0.25rem 0.5rem;
         position: relative;
+        right: auto;
+        bottom: auto;
+        left: auto;
+        display: inline-block;
+        width: auto;
+        padding: $btn-padding-y $btn-padding-x;
+        border-radius: $btn-border-radius;
+        box-shadow: none;
+        font-size: $font-size-base;
     }
 }
 

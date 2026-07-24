@@ -1,0 +1,85 @@
+// Light and dark colour schemes.
+// Bootstrap 5.3 switches schemes with the `data-bs-theme` attribute on <html>.
+// That attribute is written before first paint by the inline script in
+// base.html, so there is no flash of the wrong scheme on load.
+// Surfaces are layered the way Apple platforms do it: a recessed page
+// background with content sitting on raised, rounded surfaces above it.
+
+:root {
+    color-scheme: light;
+
+    --bb-surface: #fff;
+    --bb-surface-raised: #fff;
+    --bb-surface-sunken: #{$gray-100};
+    --bb-separator: rgba(60, 60, 67, 0.16);
+    --bb-fill-subtle: rgba(120, 120, 128, 0.08);
+    --bb-fill-strong: rgba(120, 120, 128, 0.16);
+    --bb-chrome-bg: rgba(255, 255, 255, 0.72);
+    --bb-chrome-border: rgba(60, 60, 67, 0.12);
+    --bb-backdrop-blur: saturate(180%) blur(20px);
+
+    --bs-body-bg: #f2f2f7;
+    --bs-body-color: #{$gray-900};
+    --bs-secondary-color: #{$gray-600};
+    --bs-border-color: var(--bb-separator);
+    --bs-link-color-rgb: 0, 113, 227;
+    --bs-link-hover-color-rgb: 0, 90, 190;
+}
+
+[data-bs-theme='dark'] {
+    color-scheme: dark;
+
+    --bb-surface: #1c1c1e;
+    --bb-surface-raised: #2c2c2e;
+    --bb-surface-sunken: #000;
+    --bb-separator: rgba(84, 84, 88, 0.6);
+    --bb-fill-subtle: rgba(120, 120, 128, 0.18);
+    --bb-fill-strong: rgba(120, 120, 128, 0.32);
+    --bb-chrome-bg: rgba(28, 28, 30, 0.72);
+    --bb-chrome-border: rgba(84, 84, 88, 0.48);
+
+    --bs-body-bg: #000;
+    --bs-body-color: #f5f5f7;
+    --bs-secondary-color: #{$gray-400};
+    --bs-border-color: var(--bb-separator);
+    --bs-link-color-rgb: 100, 190, 255;
+    --bs-link-hover-color-rgb: 150, 210, 255;
+}
+
+// Base typography and rendering.
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizelegibility;
+    letter-spacing: -0.01em;
+}
+
+h1,
+h2,
+h3 {
+    letter-spacing: -0.02em;
+}
+
+// Honour the operating system's reduced motion preference.
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+// Focus visibility. Keyboard users get a clear ring; pointer users do not.
+:focus-visible {
+    outline: 2px solid rgba($primary, 0.9);
+    outline-offset: 2px;
+}
+
+// Selection colour.
+::selection {
+    background-color: rgba($primary, 0.28);
+}

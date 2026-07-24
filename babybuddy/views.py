@@ -11,7 +11,12 @@ from django.conf import settings
 from django.core.exceptions import BadRequest
 from django.core.files.storage import FileSystemStorage, default_storage
 from django.forms import Form
-from django.http import FileResponse, Http404, HttpResponseForbidden
+from django.http import (
+    FileResponse,
+    Http404,
+    HttpResponseForbidden,
+    JsonResponse,
+)
 from django.middleware.csrf import REASON_BAD_ORIGIN
 from django.shortcuts import redirect, render
 from django.template import loader
@@ -43,6 +48,7 @@ from django_filters.views import FilterView
 
 from babybuddy import forms
 from babybuddy.mixins import LoginRequiredMixin, PermissionRequiredMixin, StaffOnlyMixin
+from babybuddy.models import Settings
 
 
 def csrf_failure(request, reason=""):
@@ -249,10 +255,12 @@ class UserSettings(LoginRequiredMixin, View):
             messages.success(request, _("Settings saved!"))
             translation.deactivate()
             return set_language(request)
+        # These context names must match the ones used on the GET path,
+        # otherwise the re-rendered form comes back empty and hides the errors.
         return render(
             request,
             self.template_name,
-            {"user_form": form_user, "settings_form": form_settings},
+            {"form_user": form_user, "form_settings": form_settings},
         )
 
 
@@ -293,6 +301,33 @@ class UserAddDevice(LoginRequiredMixin, View):
             return redirect("babybuddy:user-add-device")
         else:
             raise BadRequest()
+
+
+@method_decorator(csrf_protect, name="dispatch")
+@method_decorator(require_POST, name="dispatch")
+class UserThemeUpdate(LoginRequiredMixin, View):
+    """
+    Saves the user's light/dark appearance preference.
+
+    The nav bar control posts here. JavaScript applies the new scheme
+    immediately and sends this request in the background, but the plain form
+    submission works without JavaScript as well.
+    """
+
+    def post(self, request):
+        theme = request.POST.get("theme")
+        valid_themes = [choice[0] for choice in Settings.theme.field.choices]
+        if theme not in valid_themes:
+            raise BadRequest(_("Unrecognized appearance preference."))
+
+        settings_instance = request.user.settings
+        settings_instance.theme = theme
+        settings_instance.save()
+
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            return JsonResponse({"theme": theme})
+
+        return redirect(request.POST.get("next") or "babybuddy:root-router")
 
 
 class Welcome(LoginRequiredMixin, TemplateView):

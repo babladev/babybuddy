@@ -215,8 +215,13 @@ class FormsTestCase(TestCase):
         page = self.c.post("/user/settings/", params)
         self.assertEqual(page.status_code, 200)
         self.assertFormError(
-            page.context["user_form"], "email", "Enter a valid email address."
+            page.context["form_user"], "email", "Enter a valid email address."
         )
+        # The re-rendered form must keep its fields. The context names used here
+        # have to match the ones the template reads, or the page comes back with
+        # empty inputs and the error message is never shown.
+        self.assertContains(page, "Enter a valid email address.")
+        self.assertContains(page, 'name="email"')
 
     def test_user_settings_language(self):
         self.c.login(**self.credentials)

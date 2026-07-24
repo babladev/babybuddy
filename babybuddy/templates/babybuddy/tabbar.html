@@ -1,0 +1,44 @@
+{% load i18n %}
+{% comment %}
+Bottom tab bar for phones. Hidden at the md breakpoint and above, where the top
+navigation bar carries the same destinations.
+{% endcomment %}
+<nav class="bb-tabbar" aria-label="{% trans 'Primary' %}">
+    <a class="bb-tabbar__item{% if request.resolver_match.view_name == 'dashboard:dashboard' %} active{% endif %}"
+       href="{% url 'dashboard:dashboard' %}"
+       {% if request.resolver_match.view_name == 'dashboard:dashboard' %}aria-current="page"{% endif %}>
+        <i class="icon-dashboard" aria-hidden="true"></i>
+        <span>{% trans "Dashboard" %}</span>
+    </a>
+    <a class="bb-tabbar__item{% if request.resolver_match.view_name == 'core:timeline' %} active{% endif %}"
+       href="{% url 'core:timeline' %}"
+       {% if request.resolver_match.view_name == 'core:timeline' %}aria-current="page"{% endif %}>
+        <i class="icon-timeline" aria-hidden="true"></i>
+        <span>{% trans "Timeline" %}</span>
+    </a>
+    {% if perms.core.view_child %}
+        <a class="bb-tabbar__item{% if request.resolver_match.view_name == 'core:child-list' %} active{% endif %}"
+           href="{% url 'core:child-list' %}"
+           {% if request.resolver_match.view_name == 'core:child-list' %}aria-current="page"{% endif %}>
+            <i class="icon-child" aria-hidden="true"></i>
+            <span>{% trans "Children" %}</span>
+        </a>
+    {% endif %}
+    {% if perms.core.view_timer %}
+        <a class="bb-tabbar__item{% if request.resolver_match.view_name == 'core:timer-list' %} active{% endif %}"
+           href="{% url 'core:timer-list' %}"
+           {% if request.resolver_match.view_name == 'core:timer-list' %}aria-current="page"{% endif %}>
+            <i class="icon-timer" aria-hidden="true"></i>
+            <span>{% trans "Timers" %}</span>
+        </a>
+    {% endif %}
+    <a class="bb-tabbar__item"
+       href="#navbar-app"
+       data-bs-toggle="collapse"
+       role="button"
+       aria-controls="navbar-app"
+       aria-expanded="false">
+        <i class="icon-list" aria-hidden="true"></i>
+        <span>{% trans "More" %}</span>
+    </a>
+</nav>

@@ -1,5 +1,16 @@
 .reports-list {
     .list-group-item {
-        color: $white;
+        color: var(--bs-body-color);
+        background-color: var(--bb-surface);
     }
+}
+
+// Plotly renders charts into an SVG with its own background, so the chart
+// container gets the same rounded surface treatment as a card.
+.report-chart {
+    padding: 0.5rem;
+    overflow: hidden;
+    border-radius: $border-radius-lg;
+    background-color: var(--bb-surface);
+    box-shadow: $box-shadow-sm;
 }

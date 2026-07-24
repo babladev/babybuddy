@@ -1,15 +1,49 @@
-@use 'sass:map';
-
 // Baby Buddy site-wide custom styles.
 
-// Remove extra margin below site breadcrumb.
-.breadcrumb {
+// Cards are the primary surface throughout the app.
+.card {
+    background-color: var(--bb-surface);
+    box-shadow: $box-shadow-sm;
+}
+
+// Tables read as a single rounded surface rather than a bare grid.
+.table-responsive,
+.bb-table-surface {
+    overflow: hidden;
+    border-radius: $border-radius-lg;
+    background-color: var(--bb-surface);
+    box-shadow: $box-shadow-sm;
+}
+
+.table {
+    // Let the rounded surface behind the table show through, while leaving
+    // Bootstrap's striped and hover states to paint over it.
+    --bs-table-bg: transparent;
+
     margin-bottom: 0;
+
+    thead th {
+        border-bottom-color: var(--bb-separator);
+        color: var(--bs-secondary-color);
+        font-size: 0.75rem;
+        font-weight: $font-weight-semibold;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    tbody tr:last-child > * {
+        border-bottom-width: 0;
+    }
+}
+
+// List groups sit on the same surface as cards.
+.list-group {
+    background-color: transparent;
 }
 
 // Extra-small button.
 .btn-xs {
-    @include button-size(.2rem, .12rem, .75rem, .2rem);
+    @include button-size(0.2rem, 0.5rem, 0.75rem, $btn-border-radius-sm);
 }
 
 // Right align main dropdown menu.
@@ -18,12 +52,27 @@
     left: auto; // Reset the default from `.dropdown-menu`
 }
 
+.dropdown-menu {
+    background-color: var(--bb-surface-raised);
+}
+
+.dropdown-item {
+    border-radius: $border-radius-sm;
+
+    &:hover,
+    &:focus {
+        background-color: var(--bb-fill-subtle);
+    }
+}
+
 // PullToRefresh elements.
 .ptr--ptr {
-    background: map.get($theme-colors, 'dark');
-    .ptr--text, .ptr--icon {
+    background: var(--bb-surface);
+
+    .ptr--text,
+    .ptr--icon {
         // "!important" must be used to override inline styling from JS.
-        color: map.get($theme-colors, 'light') !important;
+        color: var(--bs-body-color) !important;
     }
 }
 
@@ -32,12 +81,31 @@
     font-size: 1.65em;
 }
 
-// All modals
+// Modals
 .modal-content {
-    color: map.get($theme-colors, 'dark');
+    color: var(--bs-body-color);
+    background-color: var(--bb-surface-raised);
+}
+
+// Alerts use a tinted fill rather than a solid block of colour.
+.alert {
+    box-shadow: $box-shadow-sm;
 }
 
 // Pagination
 .page-link-icon {
     padding: var(--bs-pagination-padding-y) calc(var(--bs-pagination-padding-x) / 1.75);
+}
+
+.pagination {
+    gap: 0.25rem;
+}
+
+.page-link {
+    border-radius: $border-radius-sm;
+}
+
+// Child photos are always circular apart from the dashboard hero image.
+.child-photo {
+    object-fit: cover;
 }

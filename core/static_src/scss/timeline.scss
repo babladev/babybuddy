@@ -1,67 +1,58 @@
 @use 'sass:map';
 
-// Adapted for Bootstrap 4 from https://www.bootply.com/SzXin8KDZJ.
-$card-shadow: rgba(0, 0, 0, .175);
+// Activity timeline.
+// Cards alternate either side of a central rail on wide screens and stack to the
+// right of the rail on phones. Colours reference the theme custom properties so
+// the callout arrows always match the card surface in both colour schemes.
 
 .timeline {
-    list-style: none;
-    padding: 10px 0;
     position: relative;
+    padding: 10px 0;
+    list-style: none;
 
     &::before {
+        position: absolute;
         top: 0;
         bottom: 0;
-        position: absolute;
-        content: ' ';
-        width: 3px;
-        background-color: map.get($theme-colors, 'primary');
         left: 50%;
-        margin-left: -1.5px;
-
+        width: 2px;
+        margin-left: -1px;
+        background-color: var(--bb-separator);
+        content: ' ';
     }
 
     li {
-        margin-bottom: 10px;
         position: relative;
+        margin-bottom: 1rem;
 
         &::before {
-            content: ' ';
             display: table;
+            content: ' ';
         }
 
         &::after {
-            content: ' ';
             display: table;
             clear: both;
+            content: ' ';
         }
 
         .card {
-            width: 46%;
-            float: left;
             position: relative;
-            box-shadow: 0 1px 6px $card-shadow;
+            float: left;
+            width: 46%;
+            background-color: var(--bb-surface);
+            box-shadow: $box-shadow-sm;
 
-            &::before {
-                position: absolute;
-                top: 26px;
-                right: -15px;
-                display: inline-block;
-                border-top: 15px solid transparent;
-                border-left: 15px solid map.get($theme-colors, 'dark');
-                border-right: 0 solid map.get($theme-colors, 'dark');
-                border-bottom: 15px solid transparent;
-                content: ' ';
-            }
-
+            // Callout arrow pointing at the rail.
             &::after {
                 position: absolute;
                 top: 27px;
                 right: -14px;
                 display: inline-block;
                 border-top: 14px solid transparent;
-                border-left: 14px solid map.get($theme-colors, 'dark');
-                border-right: 0 solid map.get($theme-colors, 'dark');
+                border-right: 0 solid transparent;
                 border-bottom: 14px solid transparent;
+                border-left: 14px solid var(--bb-surface);
                 content: ' ';
             }
         }
@@ -70,52 +61,31 @@ $card-shadow: rgba(0, 0, 0, .175);
             .card {
                 float: right;
 
-                &::before {
-                    border-left-width: 0;
-                    border-right-width: 15px;
-                    left: -15px;
-                    right: auto;
-                }
-
                 &::after {
-                    border-left-width: 0;
-                    border-right-width: 14px;
-                    left: -14px;
                     right: auto;
+                    left: -14px;
+                    border-right-width: 14px;
+                    border-right-color: var(--bb-surface);
+                    border-left-width: 0;
                 }
             }
         }
 
         .timeline-badge {
-            color: $white;
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-            font-size: 1.4em;
-            text-align: center;
             position: absolute;
             top: 16px;
             left: 50%;
-            margin-left: -25px;
-            background-color: map.get($theme-colors, 'dark');
             z-index: 100;
+            width: 44px;
+            height: 44px;
+            margin-left: -22px;
             border-radius: 50%;
-
-            .arrow {
-                color: $white;
-                width: 50px;
-                height: 50px;
-                line-height: 50px;
-                font-size: 1.4em;
-                text-align: center;
-                position: absolute;
-                top: 26px;
-                left: 50%;
-                margin-left: -25px;
-                background-color: map.get($theme-colors, 'dark');
-                z-index: 100;
-                border-radius: 50%;
-            }
+            color: #fff;
+            background-color: map.get($theme-colors, 'primary');
+            box-shadow: $box-shadow-sm;
+            font-size: 1.25em;
+            line-height: 44px;
+            text-align: center;
         }
     }
 }
@@ -123,33 +93,27 @@ $card-shadow: rgba(0, 0, 0, .175);
 @include media-breakpoint-down(md) {
     .timeline {
         &::before {
-            left: 40px;
+            left: 32px;
         }
 
         li {
             .card {
                 float: right;
-                width: calc(100% - 90px);
-
-                &::before {
-                    border-left-width: 0;
-                    border-right-width: 15px;
-                    left: -15px;
-                    right: auto;
-                }
+                width: calc(100% - 76px);
 
                 &::after {
-                    border-left-width: 0;
-                    border-right-width: 14px;
-                    left: -14px;
                     right: auto;
+                    left: -14px;
+                    border-right-width: 14px;
+                    border-right-color: var(--bb-surface);
+                    border-left-width: 0;
                 }
             }
 
             .timeline-badge {
-                left: 15px;
-                margin-left: 0;
                 top: 16px;
+                left: 10px;
+                margin-left: 0;
             }
         }
     }

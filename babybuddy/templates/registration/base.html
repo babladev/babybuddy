@@ -2,21 +2,21 @@
 {% load static widget_tweaks %}
 {% block breadcrumb_nav %}{% endblock %}
 {% block page %}
-    <div id="view-{{ request.resolver_match.view_name }}" class="container">
-        <div class="text-center pt-3">
+    <div id="view-{{ request.resolver_match.view_name }}"
+         class="container bb-auth-page">
+        <div class="text-center pt-5 pb-2">
             <img src="{% static "babybuddy/logo/icon-brand.png" %}"
                  width="65"
                  height="65"
                  class="d-inline-block align-top"
                  alt="">
-            <h1 class="d-none d-md-inline-block display-4 ms-2">
+            <h1 class="d-none d-md-inline-block display-5 ms-2">
                 <span class="text-primary">Baby</span> Buddy
             </h1>
-        </a>
+        </div>
+        <div class="bb-auth-card card p-4">
+            {% include 'babybuddy/messages.html' %}
+            {% block content %}{% endblock %}
+        </div>
     </div>
-    <div class="p-4 rounded text-light">
-        {% include 'babybuddy/messages.html' %}
-        {% block content %}{% endblock %}
-    </div>
-</div>
 {% endblock %}

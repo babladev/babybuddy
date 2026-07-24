@@ -1,0 +1,75 @@
+{% load i18n %}
+{% comment %}
+Quick logging actions, shared by the nav bar dropdown and the floating action
+button so the two can never drift apart. Every entry is gated on the permission
+for the model it creates, which keeps read-only users out.
+{% endcomment %}
+<h6 class="dropdown-header">{% trans "Log an activity" %}</h6>
+{% if perms.core.add_feeding %}
+    <a class="dropdown-item" href="{% url 'core:feeding-add' %}">
+        <i class="icon-feeding" aria-hidden="true"></i>
+        {% trans "Feeding" %}
+    </a>
+    <a class="dropdown-item" href="{% url 'core:bottle-feeding-add' %}">
+        <i class="icon-feeding" aria-hidden="true"></i>
+        {% trans "Bottle Feeding" %}
+    </a>
+{% endif %}
+{% if perms.core.add_diaperchange %}
+    <a class="dropdown-item" href="{% url 'core:diaperchange-add' %}">
+        <i class="icon-diaperchange" aria-hidden="true"></i>
+        {% trans "Diaper Change" %}
+    </a>
+{% endif %}
+{% if perms.core.add_sleep %}
+    <a class="dropdown-item" href="{% url 'core:sleep-add' %}">
+        <i class="icon-sleep" aria-hidden="true"></i>
+        {% trans "Sleep" %}
+    </a>
+{% endif %}
+{% if perms.core.add_tummytime %}
+    <a class="dropdown-item" href="{% url 'core:tummytime-add' %}">
+        <i class="icon-tummytime" aria-hidden="true"></i>
+        {% trans "Tummy Time" %}
+    </a>
+{% endif %}
+{% if perms.core.add_pumping %}
+    <a class="dropdown-item" href="{% url 'core:pumping-add' %}">
+        <i class="icon-pumping" aria-hidden="true"></i>
+        {% trans "Pumping" %}
+    </a>
+{% endif %}
+{% if perms.core.add_medication %}
+    <a class="dropdown-item" href="{% url 'core:medication-add' %}">
+        <i class="icon-medication" aria-hidden="true"></i>
+        {% trans "Medication" %}
+    </a>
+{% endif %}
+{% if perms.core.add_note %}
+    <a class="dropdown-item" href="{% url 'core:note-add' %}">
+        <i class="icon-note" aria-hidden="true"></i>
+        {% trans "Note" %}
+    </a>
+{% endif %}
+{% if perms.core.add_temperature or perms.core.add_weight or perms.core.add_height %}
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header">{% trans "Measurements" %}</h6>
+    {% if perms.core.add_weight %}
+        <a class="dropdown-item" href="{% url 'core:weight-add' %}">
+            <i class="icon-weight" aria-hidden="true"></i>
+            {% trans "Weight" %}
+        </a>
+    {% endif %}
+    {% if perms.core.add_height %}
+        <a class="dropdown-item" href="{% url 'core:height-add' %}">
+            <i class="icon-height" aria-hidden="true"></i>
+            {% trans "Height" %}
+        </a>
+    {% endif %}
+    {% if perms.core.add_temperature %}
+        <a class="dropdown-item" href="{% url 'core:temperature-add' %}">
+            <i class="icon-temperature" aria-hidden="true"></i>
+            {% trans "Temperature" %}
+        </a>
+    {% endif %}
+{% endif %}

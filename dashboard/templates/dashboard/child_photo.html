@@ -1,0 +1,20 @@
+{% load imagekit static %}
+{% comment %}
+Child avatar. Falls back to the placeholder image when no photo is set.
+Expects `object` (a Child) and optional `photo_size` (pixels, default 96).
+{% endcomment %}
+{% firstof photo_size 96 as size %}
+{% if object.picture %}
+    {% thumbnail '300x300' object.picture as thumb %}
+        <img src="{{ thumb.url }}"
+             class="child-photo"
+             width="{{ size }}"
+             height="{{ size }}"
+             alt="{{ object }}" />
+    {% else %}
+        <img src="{% static 'babybuddy/img/core/child-placeholder.png' %}"
+             class="child-photo"
+             width="{{ size }}"
+             height="{{ size }}"
+             alt="" />
+    {% endif %}

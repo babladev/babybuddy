@@ -109,6 +109,17 @@ class Settings(models.Model):
         max_length=255,
         verbose_name=_("Language"),
     )
+    theme = models.CharField(
+        choices=[
+            ("auto", _("Match system")),
+            ("light", _("Light")),
+            ("dark", _("Dark")),
+        ],
+        default="auto",
+        max_length=5,
+        verbose_name=_("Appearance"),
+        help_text=_('"Match system" follows the light or dark setting of your device.'),
+    )
     timezone = models.CharField(
         choices=sorted(
             tuple(zip(zoneinfo.available_timezones(), zoneinfo.available_timezones()))

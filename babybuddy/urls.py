@@ -43,6 +43,7 @@ app_patterns = [
     path("users/<int:pk>/delete/", views.UserDelete.as_view(), name="user-delete"),
     path("user/password/", views.UserPassword.as_view(), name="user-password"),
     path("user/settings/", views.UserSettings.as_view(), name="user-settings"),
+    path("user/theme/", views.UserThemeUpdate.as_view(), name="user-theme"),
     path("user/add-device/", views.UserAddDevice.as_view(), name="user-add-device"),
     path("settings/", include("dbsettings.urls")),
 ]
