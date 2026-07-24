@@ -13,6 +13,8 @@ from dataclasses import dataclass, field
 from dateutil.relativedelta import relativedelta
 
 from django.utils import timezone
+from django.utils.translation import gettext as _
+from django.utils.translation import ngettext
 
 from guidance.models import GuidanceEntry, Kind, Scale
 
@@ -37,6 +39,23 @@ def month_of_life(birth_date, today=None):
         return 0
     delta = relativedelta(today, birth_date)
     return delta.years * 12 + delta.months + 1
+
+
+def period_label(scale, period):
+    """
+    A human readable heading for a period, e.g. "Day 9" or "Month 2".
+    """
+    if period is None:
+        return ""
+    if scale == Scale.PRENATAL:
+        return ngettext(
+            "%(count)d day before birth", "%(count)d days before birth", period
+        ) % {"count": period}
+    if scale == Scale.MONTH:
+        return _("Month %(number)d") % {"number": period}
+    if period == 0:
+        return _("Day of birth")
+    return _("Day %(number)d") % {"number": period}
 
 
 def available_periods(scale):
@@ -111,11 +130,11 @@ class GuidanceGroup:
         return self.action_total > 0 and self.action_completed == self.action_total
 
 
-def _group(scale, period, entries, completed_entry_ids, label=""):
+def _group(scale, period, entries, completed_entry_ids, label=None):
     group = GuidanceGroup(
         scale=scale,
         period=period,
-        label=label,
+        label=label if label is not None else period_label(scale, period),
         completed_entry_ids=completed_entry_ids,
     )
     for entry in entries:
@@ -147,7 +166,7 @@ def entries_for_period(scale, period):
     )
 
 
-def group_for_period(scale, period, child=None, pregnancy=None, label=""):
+def group_for_period(scale, period, child=None, pregnancy=None, label=None):
     """
     Build a single group of guidance for an explicit period.
     """

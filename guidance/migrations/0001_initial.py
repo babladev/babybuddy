@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("core", "0037_alter_bmi_options_alter_feeding_options_and_more"),
+        ("core", "0036_medication"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

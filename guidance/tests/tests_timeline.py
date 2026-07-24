@@ -225,3 +225,34 @@ class GuidanceCompletionModelTestCase(TestCase):
         completion.clean()
         completion.save()
         self.assertEqual(completion.subject, self.child)
+
+
+class PeriodLabelTestCase(TestCase):
+    def test_day_of_birth(self):
+        self.assertEqual(timeline.period_label(Scale.DAY, 0), "Day of birth")
+
+    def test_later_days(self):
+        self.assertEqual(timeline.period_label(Scale.DAY, 9), "Day 9")
+
+    def test_months(self):
+        self.assertEqual(timeline.period_label(Scale.MONTH, 2), "Month 2")
+
+    def test_prenatal_is_a_countdown(self):
+        self.assertEqual(timeline.period_label(Scale.PRENATAL, 1), "1 day before birth")
+        self.assertEqual(
+            timeline.period_label(Scale.PRENATAL, 14), "14 days before birth"
+        )
+
+    def test_no_period_has_no_label(self):
+        self.assertEqual(timeline.period_label(Scale.DAY, None), "")
+
+    def test_groups_are_labelled_automatically(self):
+        call_command("migrate", verbosity=0)
+        child = Child.objects.create(
+            first_name="Label",
+            last_name="Test",
+            birth_date=datetime.date(2026, 1, 15),
+        )
+        guidance = timeline.child_guidance(child, datetime.date(2026, 1, 22))
+        self.assertEqual(guidance["day_group"].label, "Day 7")
+        self.assertEqual(guidance["month_group"].label, "Month 1")

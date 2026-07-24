@@ -92,6 +92,20 @@ class GuidanceViewsTestCase(TestCase):
         self.assertContains(page, "Nothing was logged for this month.")
         self.assertContains(page, "Month one: survival, and it counts")
 
+    def test_action_progress_is_shown_and_updates(self):
+        page = self.c.get("/guidance/")
+        self.assertContains(page, "0 of 1 done")
+
+        group = timeline.group_for_period(Scale.MONTH, 1, child=self.child)
+        self.c.post(
+            "/guidance/complete/",
+            {"entry": group.actions[0].id, "child": self.child.slug},
+        )
+
+        page = self.c.get("/guidance/")
+        self.assertContains(page, "1 of 1 done")
+        self.assertContains(page, "bb-guidance-entry--done")
+
     def test_child_month_page_shows_logged_totals(self):
         DiaperChange.objects.create(
             child=self.child, time=timezone.now(), wet=True, solid=False
