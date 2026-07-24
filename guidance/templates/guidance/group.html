@@ -1,0 +1,47 @@
+{% load i18n %}
+{% comment %}
+One period of guidance, split into things to do, things to watch for and
+background reading.
+
+Expects `group` and one of `child` or `pregnancy`.
+{% endcomment %}
+{% if group and not group.is_empty %}
+    <div class="bb-guidance-group">
+        {% if group.label %}
+            <div class="bb-guidance-group__header">
+                <h2 class="bb-guidance-group__title">{{ group.label }}</h2>
+                {% if group.action_total %}
+                    <span class="bb-guidance-group__progress{% if group.is_complete %} bb-guidance-group__progress--complete{% endif %}">
+                        {% blocktrans trimmed with done=group.action_completed total=group.action_total %}
+                            {{ done }} of {{ total }} done
+                        {% endblocktrans %}
+                    </span>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if group.actions %}
+            <h3 class="bb-guidance-section">{% trans "To do" %}</h3>
+            <ul class="bb-guidance-list">
+                {% for entry in group.actions %}
+                    {% include "guidance/entry.html" %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if group.watch_for %}
+            <h3 class="bb-guidance-section">{% trans "Watch for" %}</h3>
+            <ul class="bb-guidance-list">
+                {% for entry in group.watch_for %}
+                    {% include "guidance/entry.html" %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if group.recaps %}
+            <h3 class="bb-guidance-section">{% trans "What to expect" %}</h3>
+            <ul class="bb-guidance-list">
+                {% for entry in group.recaps %}
+                    {% include "guidance/entry.html" %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endif %}

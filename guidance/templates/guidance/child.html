@@ -1,0 +1,67 @@
+{% extends 'babybuddy/page.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans "Guidance" %} - {{ object }}
+{% endblock %}
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a href="{% url 'core:child-list' %}">{% trans "Children" %}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'core:child' object.slug %}">{{ object }}</a>
+    </li>
+    <li class="breadcrumb-item fw-bold">{% trans "Guidance" %}</li>
+{% endblock %}
+{% block content %}
+    {% include "guidance/notice.html" %}
+    <div class="row g-3">
+        <div class="col-lg-8">
+            {% if day_group %}
+                <section class="card bb-guidance-card mb-3">
+                    <div class="card-body">{% include "guidance/group.html" with group=day_group child=object %}</div>
+                </section>
+            {% endif %}
+            {% if month_group %}
+                <section class="card bb-guidance-card mb-3">
+                    <div class="card-body">
+                        {% include "guidance/group.html" with group=month_group child=object %}
+                        <p class="mt-3 mb-0">
+                            <a href="{% url 'guidance:child-month' object.slug month %}">
+                                {% blocktrans trimmed with month=month %}
+                                    Month {{ month }} recap
+                                {% endblocktrans %}
+                            </a>
+                        </p>
+                    </div>
+                </section>
+            {% endif %}
+            {% if not day_group and not month_group %}
+                <p class="text-body-secondary">{% trans "No guidance applies right now." %}</p>
+            {% endif %}
+        </div>
+        <div class="col-lg-4">
+            <section class="card bb-guidance-card">
+                <div class="card-body">
+                    <h2 class="bb-guidance-card__subject">{% trans "Months" %}</h2>
+                    <p class="bb-guidance-card__meta">
+                        {% blocktrans trimmed with days=age_days %}
+                            Day {{ days }} of life
+                        {% endblocktrans %}
+                    </p>
+                    <ul class="bb-guidance-months">
+                        {% for item in months %}
+                            <li>
+                                <a class="bb-guidance-months__link{% if item.is_current %} bb-guidance-months__link--current{% endif %}{% if item.is_past %} bb-guidance-months__link--past{% endif %}"
+                                   href="{% url 'guidance:child-month' object.slug item.period %}">
+                                    {% blocktrans trimmed with month=item.period %}
+                                        Month {{ month }}
+                                    {% endblocktrans %}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}

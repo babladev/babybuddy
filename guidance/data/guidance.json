@@ -1,0 +1,780 @@
+{
+  "version": 1,
+  "notice": "General information for planning and orientation only. It is not medical advice and does not replace guidance from a midwife, health visitor, paediatrician or doctor. Anything that worries you is worth a call to your own care team.",
+  "entries": [
+    {
+      "slug": "prenatal-30-birth-plan",
+      "scale": "prenatal",
+      "period": 30,
+      "kind": "action",
+      "order": 1,
+      "title": "Write down your birth preferences",
+      "description": "One page is enough: who you want with you, pain relief you would like to try or avoid, and what should happen if plans change. Share a copy with your partner and your care team."
+    },
+    {
+      "slug": "prenatal-30-hospital-bag",
+      "scale": "prenatal",
+      "period": 30,
+      "kind": "action",
+      "order": 2,
+      "title": "Start the hospital bag",
+      "description": "Documents and ID, a phone charger with a long cable, comfortable clothes for going home, toiletries, snacks, and a going-home outfit plus car seat for the baby. Pack it now and top it up rather than doing it in one rush."
+    },
+    {
+      "slug": "prenatal-30-contacts",
+      "scale": "prenatal",
+      "period": 30,
+      "kind": "action",
+      "order": 3,
+      "title": "Put the important numbers somewhere obvious",
+      "description": "Maternity unit, midwife, out-of-hours line, and the two people you would call for a lift. On the fridge and in both phones."
+    },
+    {
+      "slug": "prenatal-30-what-to-expect",
+      "scale": "prenatal",
+      "period": 30,
+      "kind": "recap",
+      "order": 4,
+      "title": "The last month",
+      "description": "Braxton Hicks tightenings, broken sleep, swollen feet and a lot of trips to the bathroom are all common now. Most babies arrive within two weeks either side of the due date, so treat the date as a midpoint rather than a deadline."
+    },
+    {
+      "slug": "prenatal-30-warning-signs",
+      "scale": "prenatal",
+      "period": 30,
+      "kind": "watch",
+      "order": 5,
+      "title": "Reasons to call straight away",
+      "description": "Reduced or changed baby movements, any bleeding, waters breaking, a bad headache with visual changes, sudden swelling of face or hands, severe pain under the ribs, or a fever. Do not wait for the next appointment."
+    },
+    {
+      "slug": "prenatal-28-car-seat",
+      "scale": "prenatal",
+      "period": 28,
+      "kind": "action",
+      "order": 1,
+      "title": "Fit and test the car seat",
+      "description": "Install it, read the manual, and practise the harness with a rolled towel in place of the baby. Getting this wrong on the day of discharge is a common and avoidable stress."
+    },
+    {
+      "slug": "prenatal-28-feeding-plan",
+      "scale": "prenatal",
+      "period": 28,
+      "kind": "action",
+      "order": 2,
+      "title": "Decide how you want to start feeding",
+      "description": "Breast, bottle or both. Whichever you choose, find out now who to ask for help locally in the first week, because early support makes a large difference."
+    },
+    {
+      "slug": "prenatal-21-sleep-space",
+      "scale": "prenatal",
+      "period": 21,
+      "kind": "action",
+      "order": 1,
+      "title": "Set up a safe sleep space",
+      "description": "A firm flat mattress, a fitted sheet and nothing else: no pillows, duvets, bumpers or soft toys. Plan for the baby to sleep on the back, in your room, for the first six months."
+    },
+    {
+      "slug": "prenatal-21-food",
+      "scale": "prenatal",
+      "period": 21,
+      "kind": "action",
+      "order": 2,
+      "title": "Cook and freeze a week of meals",
+      "description": "Anything you can eat with one hand. Your future self, awake at 3am, will be glad."
+    },
+    {
+      "slug": "prenatal-21-support",
+      "scale": "prenatal",
+      "period": 21,
+      "kind": "action",
+      "order": 3,
+      "title": "Agree who does what after the birth",
+      "description": "Visitors, meals, laundry, older children, pets. Say it out loud now so nobody has to negotiate it while exhausted."
+    },
+    {
+      "slug": "prenatal-14-paperwork",
+      "scale": "prenatal",
+      "period": 14,
+      "kind": "action",
+      "order": 1,
+      "title": "Sort the paperwork you can do in advance",
+      "description": "Parental leave dates confirmed with work, birth registration requirements checked, insurance and any benefits started. Much of it can be pre-filled."
+    },
+    {
+      "slug": "prenatal-14-labour-signs",
+      "scale": "prenatal",
+      "period": 14,
+      "kind": "recap",
+      "order": 2,
+      "title": "How labour usually announces itself",
+      "description": "Contractions that get longer, stronger and closer together; a show; waters breaking; sometimes a bout of nausea or loose stools. Early labour can last a long time, so eat, rest and time contractions rather than rushing in."
+    },
+    {
+      "slug": "prenatal-10-baby-basics",
+      "scale": "prenatal",
+      "period": 10,
+      "kind": "action",
+      "order": 1,
+      "title": "Wash and lay out the first-week basics",
+      "description": "Around six sleepsuits and vests, a pack of nappies in newborn size, cotton wool or wipes, muslins, and a couple of towels. You need less than the shops suggest."
+    },
+    {
+      "slug": "prenatal-7-rest",
+      "scale": "prenatal",
+      "period": 7,
+      "kind": "action",
+      "order": 1,
+      "title": "Protect your sleep this week",
+      "description": "Clear the calendar where you can. Going into labour rested is worth more than any last errand."
+    },
+    {
+      "slug": "prenatal-7-movements",
+      "scale": "prenatal",
+      "period": 7,
+      "kind": "watch",
+      "order": 2,
+      "title": "Keep track of movements",
+      "description": "Babies do not move less towards the end. If the pattern you know changes, call your maternity unit the same day, however late it is."
+    },
+    {
+      "slug": "prenatal-5-route",
+      "scale": "prenatal",
+      "period": 5,
+      "kind": "action",
+      "order": 1,
+      "title": "Do a dry run of the journey",
+      "description": "Route, parking, which entrance is open at night, and where the buzzer is. Fuel or charge the car and keep it that way."
+    },
+    {
+      "slug": "prenatal-3-home",
+      "scale": "prenatal",
+      "period": 3,
+      "kind": "action",
+      "order": 1,
+      "title": "Leave the house ready to come back to",
+      "description": "Clean sheets, bins out, dishwasher empty, phone chargers where you will find them. Coming home to order is a small kindness with a big effect."
+    },
+    {
+      "slug": "prenatal-2-checklist",
+      "scale": "prenatal",
+      "period": 2,
+      "kind": "action",
+      "order": 1,
+      "title": "Final check of the bag and the plan",
+      "description": "Notes, ID, car seat in the car, bag by the door, contact list confirmed. Then stop preparing."
+    },
+    {
+      "slug": "prenatal-1-eat-rest",
+      "scale": "prenatal",
+      "period": 1,
+      "kind": "action",
+      "order": 1,
+      "title": "Eat, drink, rest, repeat",
+      "description": "Nothing else on the list matters now. Keep your phone charged and let people know you are close."
+    },
+    {
+      "slug": "prenatal-1-overdue",
+      "scale": "prenatal",
+      "period": 1,
+      "kind": "recap",
+      "order": 2,
+      "title": "If the due date passes",
+      "description": "Going a week or two past the due date is normal and common, especially with a first baby. Your care team will offer extra monitoring and talk to you about induction options."
+    },
+    {
+      "slug": "day-0-skin-to-skin",
+      "scale": "day",
+      "period": 0,
+      "kind": "action",
+      "order": 1,
+      "title": "Skin to skin, then a first feed",
+      "description": "Uninterrupted skin to skin helps regulate the baby's temperature, breathing and blood sugar, and it helps feeding get started. The weighing and dressing can wait."
+    },
+    {
+      "slug": "day-0-log-birth",
+      "scale": "day",
+      "period": 0,
+      "kind": "action",
+      "order": 2,
+      "title": "Record the birth details",
+      "description": "Time of birth, weight, and any measurements the team give you. Add them in Baby Buddy while somebody is still holding the paperwork."
+    },
+    {
+      "slug": "day-0-first-day",
+      "scale": "day",
+      "period": 0,
+      "kind": "recap",
+      "order": 3,
+      "title": "What day one usually looks like",
+      "description": "Long sleepy stretches after an alert first hour or two, only a few wet nappies, and the first very dark sticky stools. Feeding may be short and frequent while everyone learns."
+    },
+    {
+      "slug": "day-0-watch",
+      "scale": "day",
+      "period": 0,
+      "kind": "watch",
+      "order": 4,
+      "title": "Ask for help if",
+      "description": "The baby is grunting or working hard to breathe, looks blue around the lips, is too sleepy to wake for feeds, or feels cold to the touch. You are surrounded by staff right now: use them."
+    },
+    {
+      "slug": "day-1-feeding-often",
+      "scale": "day",
+      "period": 1,
+      "kind": "action",
+      "order": 1,
+      "title": "Feed on demand, around 8 to 12 times",
+      "description": "Watch for cues rather than the clock: stirring, hands to mouth, turning towards you. Crying is a late cue."
+    },
+    {
+      "slug": "day-1-nappies",
+      "scale": "day",
+      "period": 1,
+      "kind": "watch",
+      "order": 2,
+      "title": "Expect about one wet nappy",
+      "description": "Output climbs with each day of life. Start logging nappies now, because the count is the simplest early sign that feeding is working."
+    },
+    {
+      "slug": "day-2-cluster-feeding",
+      "scale": "day",
+      "period": 2,
+      "kind": "recap",
+      "order": 1,
+      "title": "The second night is often the hardest",
+      "description": "Many babies feed almost constantly and settle only when held. It is normal, it passes, and it helps bring your milk in. Take turns so someone is always rested enough to be safe."
+    },
+    {
+      "slug": "day-2-latch-check",
+      "scale": "day",
+      "period": 2,
+      "kind": "action",
+      "order": 2,
+      "title": "Have someone check the latch",
+      "description": "Feeding should not damage you. Pain, cracked skin or a clicking sound are all reasons to have a midwife or feeding specialist watch a whole feed."
+    },
+    {
+      "slug": "day-3-milk-coming-in",
+      "scale": "day",
+      "period": 3,
+      "kind": "recap",
+      "order": 1,
+      "title": "Milk changing over",
+      "description": "Breasts often feel full and heavy around now and stools turn greenish-brown. Three wet nappies a day is the rough expectation at this point."
+    },
+    {
+      "slug": "day-3-jaundice",
+      "scale": "day",
+      "period": 3,
+      "kind": "watch",
+      "order": 2,
+      "title": "Yellow skin or eyes",
+      "description": "Mild jaundice peaking around day three to five is common. Get it checked the same day if it reaches the chest or below, if the baby is hard to wake, or if feeding drops off."
+    },
+    {
+      "slug": "day-4-weight-check",
+      "scale": "day",
+      "period": 4,
+      "kind": "action",
+      "order": 1,
+      "title": "Keep the weight and heel-prick appointments",
+      "description": "Losing up to about a tenth of birth weight in the first days is expected, with most babies back to birth weight in two to three weeks. Log each weight so the trend is visible."
+    },
+    {
+      "slug": "day-5-parent-mood",
+      "scale": "day",
+      "period": 5,
+      "kind": "watch",
+      "order": 1,
+      "title": "Tearfulness around day three to five",
+      "description": "A wobbly few days as hormones shift affects most birthing parents. If low mood, anxiety or hopelessness lasts more than two weeks, or you have frightening thoughts, tell your midwife or doctor. This is common and treatable."
+    },
+    {
+      "slug": "day-5-visitors",
+      "scale": "day",
+      "period": 5,
+      "kind": "action",
+      "order": 2,
+      "title": "Set the visitor rules",
+      "description": "Short visits, no one unwell, hands washed, and they bring food or do a job. It is entirely reasonable to say not yet."
+    },
+    {
+      "slug": "day-6-registration",
+      "scale": "day",
+      "period": 6,
+      "kind": "action",
+      "order": 1,
+      "title": "Book the birth registration",
+      "description": "Deadlines vary by country, typically a few weeks. Booking it now avoids a scramble later, and you often need it for benefits and paperwork."
+    },
+    {
+      "slug": "day-7-one-week",
+      "scale": "day",
+      "period": 7,
+      "kind": "recap",
+      "order": 1,
+      "title": "One week in",
+      "description": "By now expect six or more wet nappies a day and soft yellow stools. Sleep comes in stretches of two to three hours around the clock, and there is no day or night rhythm yet. Look at the week, not the hour."
+    },
+    {
+      "slug": "day-7-cord",
+      "scale": "day",
+      "period": 7,
+      "kind": "watch",
+      "order": 2,
+      "title": "The cord stump",
+      "description": "It dries and drops off somewhere between five and fifteen days. Spreading redness on the skin around it, pus or a bad smell needs to be seen."
+    },
+    {
+      "slug": "day-8-your-recovery",
+      "scale": "day",
+      "period": 8,
+      "kind": "action",
+      "order": 1,
+      "title": "Look after your own recovery",
+      "description": "Whether you had a vaginal birth or a caesarean, keep on top of pain relief, drink more than feels necessary, and do not lift anything heavier than the baby yet."
+    },
+    {
+      "slug": "day-9-tummy-time",
+      "scale": "day",
+      "period": 9,
+      "kind": "action",
+      "order": 1,
+      "title": "Try a minute of tummy time",
+      "description": "Awake, supervised, on your chest or across your lap. A minute or two a few times a day builds neck strength and protects the back of the head."
+    },
+    {
+      "slug": "day-10-birth-weight",
+      "scale": "day",
+      "period": 10,
+      "kind": "recap",
+      "order": 1,
+      "title": "Around birth weight again",
+      "description": "Most babies are back to their birth weight between day ten and day twenty-one. Steady gain matters more than any single reading."
+    },
+    {
+      "slug": "day-11-outside",
+      "scale": "day",
+      "period": 11,
+      "kind": "action",
+      "order": 1,
+      "title": "Get outside once a day",
+      "description": "A short walk resets you both. Daylight helps your own sleep, and the movement settles many babies."
+    },
+    {
+      "slug": "day-12-feeding-rhythm",
+      "scale": "day",
+      "period": 12,
+      "kind": "recap",
+      "order": 1,
+      "title": "Patterns start to appear",
+      "description": "Feeds often begin to space out a little and alert periods get longer. Fussy evenings are extremely common and peak in the coming weeks."
+    },
+    {
+      "slug": "day-13-partner",
+      "scale": "day",
+      "period": 13,
+      "kind": "action",
+      "order": 1,
+      "title": "Give each other a real break",
+      "description": "One parent takes the baby for a stretch while the other sleeps properly, phone off. Trade shifts rather than both running empty."
+    },
+    {
+      "slug": "day-14-two-weeks",
+      "scale": "day",
+      "period": 14,
+      "kind": "recap",
+      "order": 1,
+      "title": "Two weeks in",
+      "description": "Total sleep is usually fourteen to seventeen hours a day, taken in short blocks. Many babies have a growth spurt around now and feed far more for a day or two."
+    },
+    {
+      "slug": "day-14-mood-check",
+      "scale": "day",
+      "period": 14,
+      "kind": "watch",
+      "order": 2,
+      "title": "Check in on both parents",
+      "description": "Persistent low mood, anxiety, rage or detachment beyond the first fortnight deserves a conversation with a professional. Non-birthing parents get postnatal depression too."
+    },
+    {
+      "slug": "day-15-vitamin-d",
+      "scale": "day",
+      "period": 15,
+      "kind": "action",
+      "order": 1,
+      "title": "Ask about vitamin D",
+      "description": "Many countries recommend a daily vitamin D supplement for breastfed babies. Confirm what applies where you live and add it to the daily routine."
+    },
+    {
+      "slug": "day-16-bath",
+      "scale": "day",
+      "period": 16,
+      "kind": "action",
+      "order": 1,
+      "title": "Keep bathing simple",
+      "description": "Two or three baths a week in plain warm water is plenty. Newborn skin does not need products, and daily washing dries it out."
+    },
+    {
+      "slug": "day-18-cues",
+      "scale": "day",
+      "period": 18,
+      "kind": "recap",
+      "order": 1,
+      "title": "Learning the cries",
+      "description": "Most parents start to tell hunger from tiredness from overstimulation somewhere in the third week. Trust the pattern you are seeing rather than a chart."
+    },
+    {
+      "slug": "day-20-social-smile",
+      "scale": "day",
+      "period": 20,
+      "kind": "watch",
+      "order": 1,
+      "title": "Watching you",
+      "description": "Babies increasingly fix on faces at about twenty to thirty centimetres and may hold your gaze. A first real smile usually arrives between six and eight weeks."
+    },
+    {
+      "slug": "day-21-three-weeks",
+      "scale": "day",
+      "period": 21,
+      "kind": "recap",
+      "order": 1,
+      "title": "Three weeks in",
+      "description": "Another common growth spurt, and evening fussing often steps up. Crying peaks at around six weeks for most babies and then falls away."
+    },
+    {
+      "slug": "day-21-colic",
+      "scale": "day",
+      "period": 21,
+      "kind": "watch",
+      "order": 2,
+      "title": "Inconsolable evening crying",
+      "description": "Long unsettled spells with a healthy, growing baby are usually normal. Get advice if crying comes with poor feeding, vomiting, blood in stools, or if you feel close to your limit. Putting the baby down safely and stepping away for a minute is always the right choice."
+    },
+    {
+      "slug": "day-24-routine",
+      "scale": "day",
+      "period": 24,
+      "kind": "action",
+      "order": 1,
+      "title": "Start separating day from night",
+      "description": "Bright and chatty for daytime feeds, dim and quiet with minimal talking at night. It takes weeks to land, but this is what builds a body clock."
+    },
+    {
+      "slug": "day-26-appointments",
+      "scale": "day",
+      "period": 26,
+      "kind": "action",
+      "order": 1,
+      "title": "Book the six-week checks",
+      "description": "The baby's review and your own postnatal check. Write down your questions as they occur to you, because they evaporate in the room."
+    },
+    {
+      "slug": "day-28-one-month",
+      "scale": "day",
+      "period": 28,
+      "kind": "recap",
+      "order": 1,
+      "title": "One month in",
+      "description": "Weight gain of roughly 150 to 200 grams a week is typical from here. Head control is starting, hands are still mostly fists, and feeds may stretch to three hours in the day."
+    },
+    {
+      "slug": "day-30-what-next",
+      "scale": "day",
+      "period": 30,
+      "kind": "recap",
+      "order": 1,
+      "title": "From here on, month by month",
+      "description": "Daily guidance stops at the end of the first month, where things change fastest. Guidance now moves to a monthly rhythm, with a recap of what you have logged."
+    },
+    {
+      "slug": "month-1-safe-sleep",
+      "scale": "month",
+      "period": 1,
+      "kind": "action",
+      "order": 1,
+      "title": "Back to sleep, every sleep",
+      "description": "On the back, on a firm flat surface, in your room, with no loose bedding. Never on a sofa or armchair with the baby, and never with someone who has been drinking, smoking or taking sedating medication."
+    },
+    {
+      "slug": "month-1-recap",
+      "scale": "month",
+      "period": 1,
+      "kind": "recap",
+      "order": 2,
+      "title": "Month one: survival, and it counts",
+      "description": "Eight to twelve feeds a day, fourteen to seventeen hours of broken sleep, no routine worth the name. Regaining birth weight and steady gain afterwards is the milestone that matters."
+    },
+    {
+      "slug": "month-1-watch",
+      "scale": "month",
+      "period": 1,
+      "kind": "watch",
+      "order": 3,
+      "title": "Get urgent help for",
+      "description": "A temperature of 38C or above in a baby under three months, refusing feeds, a bulging or sunken soft spot, a rash that does not fade under pressure, laboured breathing, or unusual floppiness. Under three months, fever is always an emergency."
+    },
+    {
+      "slug": "month-2-vaccinations",
+      "scale": "month",
+      "period": 2,
+      "kind": "action",
+      "order": 1,
+      "title": "First vaccinations",
+      "description": "The first round is usually due around eight weeks. Book it, and plan a quiet day afterwards with extra cuddles and infant paracetamol on hand if your clinic advises it."
+    },
+    {
+      "slug": "month-2-recap",
+      "scale": "month",
+      "period": 2,
+      "kind": "recap",
+      "order": 2,
+      "title": "Month two: the smile arrives",
+      "description": "Real social smiles, cooing, and longer alert stretches. Crying usually peaks early this month and then eases. Some babies start one longer night stretch of four to six hours."
+    },
+    {
+      "slug": "month-2-watch",
+      "scale": "month",
+      "period": 2,
+      "kind": "watch",
+      "order": 3,
+      "title": "Mention it if",
+      "description": "No smiling by ten weeks, no reaction to loud sounds, eyes that do not follow you, or a strong preference for turning one way only."
+    },
+    {
+      "slug": "month-3-recap",
+      "scale": "month",
+      "period": 3,
+      "kind": "recap",
+      "order": 1,
+      "title": "Month three: hands discovered",
+      "description": "Hands open and go everywhere, including the mouth. Head control is much steadier, laughing often starts, and feeding usually settles into a rhythm you can predict."
+    },
+    {
+      "slug": "month-3-tummy-time",
+      "scale": "month",
+      "period": 3,
+      "kind": "action",
+      "order": 2,
+      "title": "Build tummy time up",
+      "description": "Aim for short sessions adding up to an hour or so across the day. It is the groundwork for rolling and crawling, and it protects head shape."
+    },
+    {
+      "slug": "month-4-recap",
+      "scale": "month",
+      "period": 4,
+      "kind": "recap",
+      "order": 1,
+      "title": "Month four: rolling and regressions",
+      "description": "Many babies roll front to back, reach deliberately and grab hair. Sleep often gets worse before it gets better as sleep cycles mature; it is developmental, not something you broke."
+    },
+    {
+      "slug": "month-4-safety",
+      "scale": "month",
+      "period": 4,
+      "kind": "action",
+      "order": 2,
+      "title": "Never leave the baby on a raised surface",
+      "description": "Once rolling starts, changing tables, beds and sofas become falls waiting to happen. Change on the floor when you are tired."
+    },
+    {
+      "slug": "month-5-recap",
+      "scale": "month",
+      "period": 5,
+      "kind": "recap",
+      "order": 1,
+      "title": "Month five: babbling and grabbing",
+      "description": "Consonant sounds, sitting with support, and everything within reach going in the mouth. Teething signs can start, though first teeth often appear later."
+    },
+    {
+      "slug": "month-5-solids-prep",
+      "scale": "month",
+      "period": 5,
+      "kind": "action",
+      "order": 2,
+      "title": "Read up on starting solids",
+      "description": "Most guidance points to around six months, when the baby can sit with support, has good head control and can bring things to the mouth. Decide your approach and check the choking-hazard list before you start."
+    },
+    {
+      "slug": "month-6-solids",
+      "scale": "month",
+      "period": 6,
+      "kind": "action",
+      "order": 1,
+      "title": "Start solids alongside milk",
+      "description": "Milk stays the main source of nutrition for a while yet. Offer iron-rich foods, introduce common allergens one at a time and early rather than late, and expect most of it to end up elsewhere."
+    },
+    {
+      "slug": "month-6-recap",
+      "scale": "month",
+      "period": 6,
+      "kind": "recap",
+      "order": 2,
+      "title": "Month six: sitting up to the world",
+      "description": "Sitting unsupported for short spells, passing objects hand to hand, and responding to their own name. Stranger awareness begins to appear."
+    },
+    {
+      "slug": "month-6-teeth",
+      "scale": "month",
+      "period": 6,
+      "kind": "action",
+      "order": 3,
+      "title": "Brush the first tooth",
+      "description": "Twice a day with a smear of fluoride toothpaste as soon as a tooth appears, and register with a dentist."
+    },
+    {
+      "slug": "month-7-recap",
+      "scale": "month",
+      "period": 7,
+      "kind": "recap",
+      "order": 1,
+      "title": "Month seven: on the move",
+      "description": "Rolling both ways, shuffling, and pushing up on hands and knees. Separation anxiety often starts, so brief goodbyes get harder for a while."
+    },
+    {
+      "slug": "month-7-babyproof",
+      "scale": "month",
+      "period": 7,
+      "kind": "action",
+      "order": 2,
+      "title": "Baby-proof at floor level",
+      "description": "Get down on the floor and look. Socket covers, stair gates, cupboard latches, blind cords tied up, furniture and televisions anchored to the wall."
+    },
+    {
+      "slug": "month-8-recap",
+      "scale": "month",
+      "period": 8,
+      "kind": "recap",
+      "order": 1,
+      "title": "Month eight: pincer grip and opinions",
+      "description": "Finger and thumb picking up small pieces, three meals a day taking shape, and clear preferences about food and people."
+    },
+    {
+      "slug": "month-9-recap",
+      "scale": "month",
+      "period": 9,
+      "kind": "recap",
+      "order": 1,
+      "title": "Month nine: pulling up",
+      "description": "Pulling to stand, cruising along furniture, waving, and babbling that sounds like conversation. Many babies drop to two naps."
+    },
+    {
+      "slug": "month-9-review",
+      "scale": "month",
+      "period": 9,
+      "kind": "action",
+      "order": 2,
+      "title": "Development review",
+      "description": "Many health systems offer a review between nine and twelve months. Bring your questions about feeding, sleep, movement and speech."
+    },
+    {
+      "slug": "month-10-recap",
+      "scale": "month",
+      "period": 10,
+      "kind": "recap",
+      "order": 1,
+      "title": "Month ten: first words in sight",
+      "description": "Understanding far more than they can say, pointing at what they want, and copying you constantly. Expect a lot of dropping things to watch what happens."
+    },
+    {
+      "slug": "month-11-recap",
+      "scale": "month",
+      "period": 11,
+      "kind": "recap",
+      "order": 1,
+      "title": "Month eleven: standing alone",
+      "description": "Standing briefly without support, taking steps while holding on, and following simple instructions. Independence and frustration arrive together."
+    },
+    {
+      "slug": "month-12-recap",
+      "scale": "month",
+      "period": 12,
+      "kind": "recap",
+      "order": 1,
+      "title": "Month twelve: one year old",
+      "description": "Most babies are roughly three times their birth weight, cruising or walking, and using a word or two with meaning. Cow's milk and a wider diet usually become options around now."
+    },
+    {
+      "slug": "month-12-watch",
+      "scale": "month",
+      "period": 12,
+      "kind": "watch",
+      "order": 2,
+      "title": "Worth raising at the one-year check",
+      "description": "Not bearing weight on the legs, no babbling or gestures such as pointing and waving, no response to their name, or loss of a skill they previously had."
+    },
+    {
+      "slug": "month-15-recap",
+      "scale": "month",
+      "period": 15,
+      "kind": "recap",
+      "order": 1,
+      "title": "Fifteen months: walking and words",
+      "description": "Walking confidently, a handful of words, and stacking or posting toys. Tantrums start as intention outpaces ability."
+    },
+    {
+      "slug": "month-18-recap",
+      "scale": "month",
+      "period": 18,
+      "kind": "recap",
+      "order": 1,
+      "title": "Eighteen months: little person",
+      "description": "Running, climbing, pretend play, and a vocabulary that grows week by week. Often a single afternoon nap and firm opinions about clothes and food."
+    },
+    {
+      "slug": "month-18-reading",
+      "scale": "month",
+      "period": 18,
+      "kind": "action",
+      "order": 2,
+      "title": "Read together every day",
+      "description": "Ten minutes of shared books does more for language than any app. Let them choose the same book fifty times."
+    },
+    {
+      "slug": "month-21-recap",
+      "scale": "month",
+      "period": 21,
+      "kind": "recap",
+      "order": 1,
+      "title": "Twenty-one months: two-word phrases",
+      "description": "Combining words, naming body parts, and testing every boundary you set. Consistency is more useful than cleverness here."
+    },
+    {
+      "slug": "month-24-recap",
+      "scale": "month",
+      "period": 24,
+      "kind": "recap",
+      "order": 1,
+      "title": "Two years old",
+      "description": "Short sentences, kicking a ball, sorting shapes, and strong feelings about everything. Big emotions are developmental, not a discipline failure."
+    },
+    {
+      "slug": "month-24-potty",
+      "scale": "month",
+      "period": 24,
+      "kind": "action",
+      "order": 2,
+      "title": "Watch for potty training readiness",
+      "description": "Interest in the toilet, staying dry for longer stretches, and telling you when a nappy is wet. Follow the child rather than the calendar; anywhere from two to three and a half is normal."
+    },
+    {
+      "slug": "month-30-recap",
+      "scale": "month",
+      "period": 30,
+      "kind": "recap",
+      "order": 1,
+      "title": "Two and a half",
+      "description": "Longer conversations, playing alongside other children, and beginning to name colours and count. Many children drop the nap this year."
+    },
+    {
+      "slug": "month-36-recap",
+      "scale": "month",
+      "period": 36,
+      "kind": "recap",
+      "order": 1,
+      "title": "Three years old",
+      "description": "Understood by people outside the family, asking endless questions, dressing with a little help, and playing cooperatively. A good moment to look back at three years of logs."
+    }
+  ]
+}

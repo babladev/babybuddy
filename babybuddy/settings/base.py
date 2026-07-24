@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "core.apps.CoreConfig",
     "corsheaders",
     "dashboard",
+    "guidance.apps.GuidanceConfig",
     "reports",
     "axes",
     "django_filters",

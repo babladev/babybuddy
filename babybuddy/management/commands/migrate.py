@@ -3,7 +3,10 @@ import os
 import secrets
 
 from django.contrib.auth import get_user_model
+from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.core.management.commands import migrate
+from django.db import DatabaseError
 
 # Default username for the initial superuser. Override with the
 # BABYBUDDY_ADMIN_USERNAME environment variable.
@@ -20,6 +23,25 @@ class Command(migrate.Command):
     def handle(self, *args, **kwargs):
         super(Command, self).handle(*args, **kwargs)
         self._create_initial_superuser(verbosity=kwargs.get("verbosity", 1))
+        self._load_guidance_content(*args, **kwargs)
+
+    def _load_guidance_content(self, *args, **kwargs):
+        """
+        Keeps the bundled guidance content in step with the code.
+
+        Skipped when migrating a single app or to a specific migration, because
+        the guidance tables may not exist at that point (`reset` walks apps back
+        to zero this way).
+        """
+        if kwargs.get("app_label") or kwargs.get("migration_name"):
+            return
+
+        try:
+            call_command("loadguidance", verbosity=kwargs.get("verbosity", 1))
+        except (CommandError, DatabaseError) as error:
+            # Content is not essential to a working install, so a failure here
+            # must not abort the deployment.
+            self.stderr.write(f"Could not load guidance content: {error}")
 
     def _create_initial_superuser(self, verbosity=1):
         """

@@ -1,0 +1,43 @@
+{% load i18n %}
+{% comment %}
+A single guidance entry. Actions get a toggle; recaps and things to watch for
+are informational.
+
+Expects `entry`, `group`, and one of `child` (a Child) or `pregnancy`.
+{% endcomment %}
+<li class="bb-guidance-entry bb-guidance-entry--{{ entry.kind }}{% if entry.id in group.completed_entry_ids %} bb-guidance-entry--done{% endif %}">
+    {% if entry.is_checkable and perms.guidance.add_guidancecompletion %}
+        <form action="{% url 'guidance:completion-toggle' %}"
+              method="post"
+              class="bb-guidance-entry__toggle"
+              data-bb-guidance-form>
+            {% csrf_token %}
+            <input type="hidden" name="entry" value="{{ entry.id }}" />
+            {% if child %}
+                <input type="hidden" name="child" value="{{ child.slug }}" />
+            {% else %}
+                <input type="hidden" name="pregnancy" value="{{ pregnancy.id }}" />
+            {% endif %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+            <button type="submit"
+                    class="bb-guidance-check"
+                    aria-pressed="{% if entry.id in group.completed_entry_ids %}true{% else %}false{% endif %}">
+                <span class="visually-hidden">
+                    {% if entry.id in group.completed_entry_ids %}
+                        {% trans "Mark as not done" %}
+                    {% else %}
+                        {% trans "Mark as done" %}
+                    {% endif %}
+                </span>
+                <i class="icon-true" aria-hidden="true"></i>
+            </button>
+        </form>
+    {% else %}
+        <span class="bb-guidance-entry__marker bb-guidance-entry__marker--{{ entry.kind }}"
+              aria-hidden="true"></span>
+    {% endif %}
+    <div class="bb-guidance-entry__body">
+        <h3 class="bb-guidance-entry__title">{{ entry.title }}</h3>
+        {% if entry.description %}<p class="bb-guidance-entry__text">{{ entry.description }}</p>{% endif %}
+    </div>
+</li>

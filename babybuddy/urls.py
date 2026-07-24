@@ -55,6 +55,7 @@ urlpatterns = [
     path("user/lang", include("django.conf.urls.i18n")),
     path("", include("core.urls", namespace="core")),
     path("", include("dashboard.urls", namespace="dashboard")),
+    path("", include("guidance.urls", namespace="guidance")),
     path("", include("reports.urls", namespace="reports")),
 ]
 

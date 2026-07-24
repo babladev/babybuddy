@@ -10,6 +10,7 @@ from taggit.serializers import TagListSerializerField, TaggitSerializer
 
 from core import models
 from babybuddy import models as babybuddy_models
+from guidance import models as guidance_models
 
 
 class CoreModelSerializer(serializers.HyperlinkedModelSerializer):
@@ -331,3 +332,68 @@ class ProfileSerializer(serializers.ModelSerializer):
             "api_key",
         )
         extra_kwargs = {k: {"read_only": True} for k in fields}
+
+
+class GuidanceEntrySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = guidance_models.GuidanceEntry
+        fields = (
+            "id",
+            "slug",
+            "scale",
+            "period",
+            "kind",
+            "title",
+            "description",
+            "order",
+            "is_active",
+        )
+
+
+class PregnancySerializer(serializers.HyperlinkedModelSerializer):
+    child = serializers.PrimaryKeyRelatedField(
+        allow_null=True, queryset=models.Child.objects.all(), required=False
+    )
+    days_until_due = serializers.SerializerMethodField()
+
+    class Meta:
+        model = guidance_models.Pregnancy
+        fields = ("id", "name", "due_date", "child", "days_until_due")
+
+    def get_days_until_due(self, instance):
+        return instance.days_until_due()
+
+
+class GuidanceCompletionSerializer(serializers.HyperlinkedModelSerializer):
+    entry = serializers.PrimaryKeyRelatedField(
+        queryset=guidance_models.GuidanceEntry.objects.all()
+    )
+    # There is no user detail endpoint to hyperlink to, so expose the ID.
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    # These carry an explicit default rather than required=False: the model's
+    # unique constraints become UniqueTogetherValidators, and those demand a
+    # value for every field they cover.
+    child = serializers.PrimaryKeyRelatedField(
+        allow_null=True, default=None, queryset=models.Child.objects.all()
+    )
+    pregnancy = serializers.PrimaryKeyRelatedField(
+        allow_null=True,
+        default=None,
+        queryset=guidance_models.Pregnancy.objects.all(),
+    )
+
+    class Meta:
+        model = guidance_models.GuidanceCompletion
+        fields = ("id", "entry", "child", "pregnancy", "user", "completed_at")
+        read_only_fields = ("user",)
+
+    def validate(self, attrs):
+        # The model enforces this with a constraint; checking here turns a
+        # database error into a readable validation message.
+        child = attrs.get("child", getattr(self.instance, "child", None))
+        pregnancy = attrs.get("pregnancy", getattr(self.instance, "pregnancy", None))
+        if bool(child) == bool(pregnancy):
+            raise ValidationError(
+                "Set exactly one of 'child' or 'pregnancy' for a completion."
+            )
+        return attrs

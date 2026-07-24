@@ -8,6 +8,7 @@ from rest_framework.schemas.openapi import AutoSchema
 
 from core import models
 from babybuddy import models as babybuddy_models
+from guidance import models as guidance_models
 
 from . import serializers, filters
 
@@ -179,3 +180,32 @@ class ProfileView(views.APIView):
         )
         serializer = self.serializer_class(settings)
         return Response(serializer.data)
+
+
+class GuidanceEntryViewSet(viewsets.ModelViewSet):
+    queryset = guidance_models.GuidanceEntry.objects.all()
+    serializer_class = serializers.GuidanceEntrySerializer
+    filterset_fields = ("scale", "period", "kind", "is_active")
+    ordering_fields = ("scale", "period", "order")
+    ordering = ["scale", "period", "order"]
+
+
+class PregnancyViewSet(viewsets.ModelViewSet):
+    queryset = guidance_models.Pregnancy.objects.all()
+    serializer_class = serializers.PregnancySerializer
+    filterset_fields = ("child", "due_date")
+    ordering_fields = ("due_date",)
+    ordering = "due_date"
+
+
+class GuidanceCompletionViewSet(viewsets.ModelViewSet):
+    queryset = guidance_models.GuidanceCompletion.objects.all()
+    serializer_class = serializers.GuidanceCompletionSerializer
+    filterset_fields = ("entry", "child", "pregnancy")
+    ordering_fields = ("completed_at",)
+    ordering = "-completed_at"
+
+    def perform_create(self, serializer):
+        # Attribute the completion to whoever is making the request rather than
+        # trusting the request body.
+        serializer.save(user=self.request.user)

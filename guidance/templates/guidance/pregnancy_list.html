@@ -1,0 +1,75 @@
+{% extends 'babybuddy/page.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans "Pregnancies" %}
+{% endblock %}
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a href="{% url 'guidance:today' %}">{% trans "Guidance" %}</a>
+    </li>
+    <li class="breadcrumb-item fw-bold">{% trans "Pregnancies" %}</li>
+{% endblock %}
+{% block content %}
+    <p class="text-body-secondary">
+        {% trans "A due date anchors the guidance for the month before the birth. Link the pregnancy to a child once the baby arrives." %}
+    </p>
+    {% if perms.guidance.add_pregnancy %}
+        <p>
+            <a href="{% url 'guidance:pregnancy-add' %}" class="btn btn-primary">
+                <i class="icon-add" aria-hidden="true"></i>
+                {% trans "Add a pregnancy" %}
+            </a>
+        </p>
+    {% endif %}
+    {% if object_list %}
+        <div class="table-responsive">
+            <table class="table table-borderless table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>{% trans "Name" %}</th>
+                        <th>{% trans "Due date" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th class="text-end">{% trans "Actions" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pregnancy in object_list %}
+                        <tr>
+                            <td>{{ pregnancy }}</td>
+                            <td>{{ pregnancy.due_date }}</td>
+                            <td>
+                                {% if pregnancy.child %}
+                                    {% blocktrans trimmed with child=pregnancy.child %}
+                                        Arrived as {{ child }}
+                                    {% endblocktrans %}
+                                {% else %}
+                                    {% blocktrans trimmed with days=pregnancy.days_until_due %}
+                                        {{ days }} days to go
+                                    {% endblocktrans %}
+                                {% endif %}
+                            </td>
+                            <td class="text-end">
+                                {% if perms.guidance.change_pregnancy %}
+                                    <a href="{% url 'guidance:pregnancy-update' pregnancy.id %}"
+                                       class="btn btn-sm btn-secondary"
+                                       title="{% trans 'Update' %}">
+                                        <i class="icon-update" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+                                {% if perms.guidance.delete_pregnancy %}
+                                    <a href="{% url 'guidance:pregnancy-delete' pregnancy.id %}"
+                                       class="btn btn-sm btn-danger"
+                                       title="{% trans 'Delete' %}">
+                                        <i class="icon-delete" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-body-secondary">{% trans "No pregnancies are being tracked." %}</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends 'babybuddy/page.html' %}
+{% load duration i18n %}
+{% block title %}
+    {% blocktrans trimmed with month=month child=object %}
+        Month {{ month }} - {{ child }}
+    {% endblocktrans %}
+{% endblock %}
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a href="{% url 'core:child-list' %}">{% trans "Children" %}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'guidance:child' object.slug %}">{% trans "Guidance" %}</a>
+    </li>
+    <li class="breadcrumb-item fw-bold">
+        {% blocktrans trimmed with month=month %}
+            Month {{ month }}
+        {% endblocktrans %}
+    </li>
+{% endblock %}
+{% block content %}
+    <div class="bb-guidance-monthnav">
+        {% if month_previous %}
+            <a class="btn btn-sm btn-secondary"
+               href="{% url 'guidance:child-month' object.slug month_previous %}">
+                <i class="icon-angle-left" aria-hidden="true"></i>
+                {% blocktrans trimmed with month=month_previous %}
+                    Month {{ month }}
+                {% endblocktrans %}
+            </a>
+        {% endif %}
+        {% if month_next and month_next <= current_month %}
+            <a class="btn btn-sm btn-secondary"
+               href="{% url 'guidance:child-month' object.slug month_next %}">
+                {% blocktrans trimmed with month=month_next %}
+                    Month {{ month }}
+                {% endblocktrans %}
+                <i class="icon-angle-right" aria-hidden="true"></i>
+            </a>
+        {% endif %}
+    </div>
+    <div class="row g-3">
+        <div class="col-lg-5">
+            <section class="card bb-guidance-card">
+                <div class="card-body">
+                    <h2 class="bb-guidance-card__subject">{% trans "Recap" %}</h2>
+                    <p class="bb-guidance-card__meta">
+                        {{ recap.start }} - {{ recap.end }}
+                        {% if recap.is_partial %}
+                            &middot; {% trans "in progress" %}
+                        {% endif %}
+                    </p>
+                    {% if recap.has_data %}
+                        <dl class="bb-recap">
+                            <div class="bb-recap__row">
+                                <dt>{% trans "Feedings" %}</dt>
+                                <dd>
+                                    {{ recap.feeding_count }}
+                                    {% if recap.feeding_amount %}
+                                        <span class="bb-recap__note">{{ recap.feeding_amount|floatformat }}</span>
+                                    {% endif %}
+                                </dd>
+                            </div>
+                            <div class="bb-recap__row">
+                                <dt>{% trans "Diaper changes" %}</dt>
+                                <dd>
+                                    {{ recap.change_count }}
+                                    <span class="bb-recap__note">
+                                        {% blocktrans trimmed with wet=recap.change_wet_count solid=recap.change_solid_count %}
+                                            {{ wet }} wet, {{ solid }} solid
+                                        {% endblocktrans %}
+                                    </span>
+                                </dd>
+                            </div>
+                            <div class="bb-recap__row">
+                                <dt>{% trans "Sleep" %}</dt>
+                                <dd>
+                                    {{ recap.sleep_total|duration_string:'m' }}
+                                    <span class="bb-recap__note">
+                                        {% blocktrans trimmed with average=recap.sleep_daily_average|duration_string:'m' %}
+                                            {{ average }} a day
+                                        {% endblocktrans %}
+                                    </span>
+                                </dd>
+                            </div>
+                            <div class="bb-recap__row">
+                                <dt>{% trans "Tummy time" %}</dt>
+                                <dd>
+                                    {{ recap.tummy_time_total|duration_string:'m' }}
+                                </dd>
+                            </div>
+                            {% if recap.weight_change %}
+                                <div class="bb-recap__row">
+                                    <dt>{% trans "Weight change" %}</dt>
+                                    <dd>
+                                        {{ recap.weight_change|floatformat }}
+                                    </dd>
+                                </div>
+                            {% endif %}
+                            <div class="bb-recap__row">
+                                <dt>{% trans "Notes" %}</dt>
+                                <dd>
+                                    {{ recap.note_count }}
+                                </dd>
+                            </div>
+                        </dl>
+                    {% else %}
+                        <p class="text-body-secondary mb-0">{% trans "Nothing was logged for this month." %}</p>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+        <div class="col-lg-7">
+            <section class="card bb-guidance-card">
+                <div class="card-body">
+                    {% if group.is_empty %}
+                        <h2 class="bb-guidance-card__subject">{% trans "Guidance" %}</h2>
+                        <p class="text-body-secondary mb-0">{% trans "No guidance is written for this month yet." %}</p>
+                    {% else %}
+                        {% include "guidance/group.html" with group=group child=object %}
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </div>
+    {% include "guidance/notice.html" %}
+{% endblock %}

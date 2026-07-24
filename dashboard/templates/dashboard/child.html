@@ -1,5 +1,5 @@
 {% extends 'babybuddy/page.html' %}
-{% load breadcrumb cards i18n %}
+{% load breadcrumb cards guidance_cards i18n %}
 {% block title %}
     {% trans "Dashboard" %} - {{ object }}
 {% endblock %}
@@ -14,6 +14,7 @@
     <div id="dashboard-child"
          class="row"
          data-masonry='{"percentPosition": true }'>
+        <div class="col-sm-6 col-lg-4">{% card_guidance object %}</div>
         <div class="col-sm-6 col-lg-4">{% card_timer_list object %}</div>
         <div class="col-sm-6 col-lg-4">{% card_feeding_last object %}</div>
         <div class="col-sm-6 col-lg-4">{% card_diaperchange_last object %}</div>

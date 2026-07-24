@@ -28,6 +28,7 @@ COPY gulpfile.js gulpfile.config.js .stylelintrc ./
 COPY babybuddy/static_src ./babybuddy/static_src
 COPY core/static_src ./core/static_src
 COPY dashboard/static_src ./dashboard/static_src
+COPY guidance/static_src ./guidance/static_src
 COPY reports/static_src ./reports/static_src
 
 # Produces babybuddy/static/babybuddy/{css,js,font,img,logo,root}.
@@ -97,6 +98,7 @@ COPY --chown=babybuddy:babybuddy api ./api
 COPY --chown=babybuddy:babybuddy babybuddy ./babybuddy
 COPY --chown=babybuddy:babybuddy core ./core
 COPY --chown=babybuddy:babybuddy dashboard ./dashboard
+COPY --chown=babybuddy:babybuddy guidance ./guidance
 COPY --chown=babybuddy:babybuddy reports ./reports
 COPY --chown=babybuddy:babybuddy locale ./locale
 COPY --chown=babybuddy:babybuddy manage.py ./

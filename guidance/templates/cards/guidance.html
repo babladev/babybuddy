@@ -1,0 +1,30 @@
+{% load i18n %}
+{% if not empty or not hide_empty %}
+    <div class="card card-dashboard card-guidance">
+        <div class="card-header">
+            <i class="icon-today pull-left" aria-hidden="true"></i>
+            <a href="{% url 'guidance:child' child.slug %}">{% trans "Guidance" %}</a>
+        </div>
+        <div class="card-body">
+            <span class="card-title">
+                <strong>
+                    {% blocktrans trimmed with days=age_days %}
+                        Day {{ days }}
+                    {% endblocktrans %}
+                </strong>
+                <small>
+                    {% blocktrans trimmed with month=month %}
+                        Month {{ month }}
+                    {% endblocktrans %}
+                </small>
+            </span>
+            <div class="card-text">
+                {% if group and not group.is_empty %}
+                    {% include "guidance/group.html" with group=group child=child %}
+                {% else %}
+                    {% trans "No guidance applies right now." %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}

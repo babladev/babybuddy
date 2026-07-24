@@ -16,14 +16,12 @@ navigation bar carries the same destinations.
         <i class="icon-timeline" aria-hidden="true"></i>
         <span>{% trans "Timeline" %}</span>
     </a>
-    {% if perms.core.view_child %}
-        <a class="bb-tabbar__item{% if request.resolver_match.view_name == 'core:child-list' %} active{% endif %}"
-           href="{% url 'core:child-list' %}"
-           {% if request.resolver_match.view_name == 'core:child-list' %}aria-current="page"{% endif %}>
-            <i class="icon-child" aria-hidden="true"></i>
-            <span>{% trans "Children" %}</span>
-        </a>
-    {% endif %}
+    <a class="bb-tabbar__item{% if request.resolver_match.view_name == 'guidance:today' %} active{% endif %}"
+       href="{% url 'guidance:today' %}"
+       {% if request.resolver_match.view_name == 'guidance:today' %}aria-current="page"{% endif %}>
+        <i class="icon-today" aria-hidden="true"></i>
+        <span>{% trans "Guidance" %}</span>
+    </a>
     {% if perms.core.view_timer %}
         <a class="bb-tabbar__item{% if request.resolver_match.view_name == 'core:timer-list' %} active{% endif %}"
            href="{% url 'core:timer-list' %}"

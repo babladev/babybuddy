@@ -13,6 +13,11 @@
            title="{% trans "Timeline" %}">
             <i class="icon-timeline" aria-hidden="true"></i>
         </a>
+        <a href="{% url 'guidance:child' object.slug %}"
+           class="btn"
+           title="{% trans "Guidance" %}">
+            <i class="icon-today" aria-hidden="true"></i>
+        </a>
         <a href="{% url 'reports:report-list' object.slug %}"
            class="btn"
            title="{% trans "Reports" %}">

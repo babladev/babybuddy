@@ -1,0 +1,90 @@
+{% extends 'babybuddy/page.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans "Guidance" %}
+{% endblock %}
+{% block breadcrumbs %}
+    <li class="breadcrumb-item fw-bold">{% trans "Guidance" %}</li>
+{% endblock %}
+{% block content %}
+    {% include "guidance/notice.html" %}
+    {% for entry in pregnancies %}
+        <section class="card bb-guidance-card mb-4">
+            <div class="card-body">
+                <div class="bb-guidance-card__header">
+                    <h2 class="bb-guidance-card__subject">{{ entry.pregnancy }}</h2>
+                    <p class="bb-guidance-card__meta">
+                        {% if entry.days_until_due > 0 %}
+                            {% blocktrans trimmed count days=entry.days_until_due %}
+                                {{ days }} day until the due date
+                            {% plural %}
+                                {{ days }} days until the due date
+                            {% endblocktrans %}
+                        {% elif entry.days_until_due == 0 %}
+                            {% trans "Due today" %}
+                        {% else %}
+                            {% trans "Past the due date" %}
+                        {% endif %}
+                    </p>
+                </div>
+                {% if entry.group %}
+                    {% include "guidance/group.html" with group=entry.group pregnancy=entry.pregnancy %}
+                {% else %}
+                    <p class="text-body-secondary mb-0">{% trans "Guidance for this pregnancy starts a month before the due date." %}</p>
+                {% endif %}
+                <p class="mt-3 mb-0">
+                    <a href="{% url 'guidance:pregnancy-list' %}">{% trans "Manage pregnancies" %}</a>
+                </p>
+            </div>
+        </section>
+    {% endfor %}
+    {% for entry in children %}
+        <section class="card bb-guidance-card mb-4">
+            <div class="card-body">
+                <div class="bb-guidance-card__header">
+                    <h2 class="bb-guidance-card__subject">
+                        <a href="{% url 'guidance:child' entry.child.slug %}">{{ entry.child }}</a>
+                    </h2>
+                    <p class="bb-guidance-card__meta">
+                        {% if entry.age_days == 0 %}
+                            {% trans "Born today" %}
+                        {% else %}
+                            {% blocktrans trimmed with days=entry.age_days %}
+                                Day {{ days }}
+                            {% endblocktrans %}
+                            &middot;
+                            {% blocktrans trimmed with month=entry.month %}
+                                Month {{ month }}
+                            {% endblocktrans %}
+                        {% endif %}
+                    </p>
+                </div>
+                {% if entry.day_group %}
+                    {% include "guidance/group.html" with group=entry.day_group child=entry.child %}
+                {% endif %}
+                {% if entry.month_group %}
+                    {% include "guidance/group.html" with group=entry.month_group child=entry.child %}
+                {% endif %}
+                {% if not entry.day_group and not entry.month_group %}
+                    <p class="text-body-secondary mb-0">{% trans "No guidance applies right now." %}</p>
+                {% endif %}
+                <p class="mt-3 mb-0">
+                    <a href="{% url 'guidance:child' entry.child.slug %}">{% trans "See the full timeline" %}</a>
+                </p>
+            </div>
+        </section>
+    {% endfor %}
+    {% if not children and not pregnancies %}
+        <div class="card bb-guidance-card">
+            <div class="card-body">
+                <h2 class="bb-guidance-card__subject">{% trans "Nothing to guide yet" %}</h2>
+                <p class="text-body-secondary">
+                    {% trans "Add a child, or add a pregnancy to get guidance for the month before the birth." %}
+                </p>
+                {% if perms.guidance.add_pregnancy %}
+                    <a href="{% url 'guidance:pregnancy-add' %}" class="btn btn-primary">{% trans "Add a pregnancy" %}</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

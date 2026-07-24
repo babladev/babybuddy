@@ -1,0 +1,264 @@
+@use 'sass:map';
+
+// Parenting guidance.
+
+.bb-guidance-notice {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-left: 3px solid rgba(map.get($theme-colors, 'info'), 0.7);
+    border-radius: $border-radius-sm;
+    color: var(--bs-secondary-color);
+    background-color: var(--bb-fill-subtle);
+    font-size: 0.8125rem;
+}
+
+.bb-guidance-card {
+    border-radius: $border-radius-lg;
+}
+
+.bb-guidance-card__header {
+    margin-bottom: 1rem;
+}
+
+.bb-guidance-card__subject {
+    margin-bottom: 0.125rem;
+    font-size: $h4-font-size;
+    font-weight: $font-weight-semibold;
+    letter-spacing: -0.02em;
+}
+
+.bb-guidance-card__meta {
+    margin-bottom: 0;
+    color: var(--bs-secondary-color);
+    font-size: 0.8125rem;
+}
+
+// ---------------------------------------------------------------------------
+// Groups and entries
+// ---------------------------------------------------------------------------
+
+.bb-guidance-group + .bb-guidance-group {
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid var(--bb-separator);
+}
+
+.bb-guidance-group__header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.bb-guidance-group__title {
+    margin-bottom: 0;
+    font-size: $h5-font-size;
+    font-weight: $font-weight-semibold;
+}
+
+.bb-guidance-group__progress {
+    padding: 0.15rem 0.55rem;
+    border-radius: $border-radius-pill;
+    color: var(--bs-secondary-color);
+    background-color: var(--bb-fill-subtle);
+    font-size: 0.75rem;
+    font-weight: $font-weight-medium;
+
+    &--complete {
+        color: map.get($theme-colors, 'success');
+    }
+}
+
+.bb-guidance-section {
+    margin-top: 0.875rem;
+    margin-bottom: 0.375rem;
+    color: var(--bs-secondary-color);
+    font-size: 0.6875rem;
+    font-weight: $font-weight-semibold;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.bb-guidance-list {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.bb-guidance-entry {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.625rem 0;
+    border-bottom: 1px solid var(--bb-separator);
+
+    &:last-child {
+        border-bottom: 0;
+    }
+}
+
+.bb-guidance-entry__toggle {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.bb-guidance-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: 1px solid var(--bb-separator);
+    border-radius: 50%;
+    color: transparent;
+    background-color: transparent;
+    transition: $transition-base;
+
+    i {
+        font-size: 0.75rem;
+        line-height: 1;
+    }
+
+    &:hover,
+    &:focus {
+        border-color: map.get($theme-colors, 'success');
+        color: var(--bs-secondary-color);
+    }
+
+    &[aria-pressed='true'] {
+        border-color: map.get($theme-colors, 'success');
+        color: #fff;
+        background-color: map.get($theme-colors, 'success');
+    }
+}
+
+// Non-actionable entries get a small coloured dot instead of a control.
+.bb-guidance-entry__marker {
+    flex: 0 0 auto;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--bs-secondary-color);
+
+    &--watch {
+        background-color: map.get($theme-colors, 'warning');
+    }
+
+    &--recap {
+        background-color: map.get($theme-colors, 'info');
+    }
+}
+
+.bb-guidance-entry__body {
+    flex: 1 1 auto;
+}
+
+.bb-guidance-entry__title {
+    margin-bottom: 0.125rem;
+    font-size: 0.9375rem;
+    font-weight: $font-weight-semibold;
+}
+
+.bb-guidance-entry__text {
+    margin-bottom: 0;
+    color: var(--bs-secondary-color);
+    font-size: 0.875rem;
+}
+
+// Completed actions stay visible but recede.
+.bb-guidance-entry--done {
+    .bb-guidance-entry__title {
+        color: var(--bs-secondary-color);
+        text-decoration: line-through;
+    }
+
+    .bb-guidance-entry__text {
+        opacity: 0.65;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Month index and recap
+// ---------------------------------------------------------------------------
+
+.bb-guidance-months {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.bb-guidance-months__link {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    border-radius: $border-radius-pill;
+    color: var(--bs-secondary-color);
+    background-color: var(--bb-fill-subtle);
+    font-size: 0.8125rem;
+    font-weight: $font-weight-medium;
+
+    &:hover,
+    &:focus {
+        color: var(--bs-body-color);
+        text-decoration: none;
+    }
+
+    &--past {
+        color: var(--bs-body-color);
+    }
+
+    &--current {
+        color: #fff;
+        background-color: map.get($theme-colors, 'primary');
+    }
+}
+
+.bb-guidance-monthnav {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.bb-recap {
+    margin-bottom: 0;
+}
+
+.bb-recap__row {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--bb-separator);
+
+    &:last-child {
+        border-bottom: 0;
+    }
+
+    dt {
+        color: var(--bs-secondary-color);
+        font-size: 0.875rem;
+        font-weight: $font-weight-normal;
+    }
+
+    dd {
+        margin-bottom: 0;
+        font-weight: $font-weight-semibold;
+        text-align: right;
+    }
+}
+
+.bb-recap__note {
+    display: block;
+    color: var(--bs-secondary-color);
+    font-size: 0.75rem;
+    font-weight: $font-weight-normal;
+}
