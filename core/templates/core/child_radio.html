@@ -1,7 +1,6 @@
 {% with id=widget.attrs.id %}
-    <div {% if id %}id="{{ id }}"{% endif %}
-         class="btn-group btn-group-toggle"
-         data-bs-toggle="buttons">
+    {# Laid out as pills rather than a button group so the options wrap on narrow screens. #}
+    <div {% if id %}id="{{ id }}"{% endif %} class="pill-container">
         {% for group, options, index in widget.optgroups %}
             {% for option in options %}
                 {% if option.value != '' %}

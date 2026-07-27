@@ -88,11 +88,17 @@ class ChildRadioSelect(RadioSelect):
     input_type = "radio"
     template_name = "core/child_radio.html"
     option_template_name = "core/child_radio_option.html"
-    attrs = {"class": "btn-check d-none"}
+    # Bootstrap's .btn-check already hides the input while leaving it
+    # focusable. Adding .d-none on top of it removes the input from the
+    # accessibility tree, and browsers then silently refuse to submit a form
+    # with an unsatisfied required radio because the control cannot be focused
+    # to show the validation message.
+    attrs = {"class": "btn-check"}
 
     def build_attrs(self, base_attrs, extra_attrs=None):
         attrs = super().build_attrs(base_attrs, extra_attrs)
-        attrs["class"] += " btn-check d-none"
+        if "btn-check" not in attrs.get("class", ""):
+            attrs["class"] = "{} btn-check".format(attrs.get("class", "")).strip()
         return attrs
 
     def create_option(
@@ -111,9 +117,11 @@ class PillRadioSelect(RadioSelect):
     template_name = "core/pill_radio.html"
     option_template_name = "core/pill_radio_option.html"
 
-    attrs = {"class": "btn-check d-none"}
+    # See ChildRadioSelect for why .d-none must not be added here.
+    attrs = {"class": "btn-check"}
 
     def build_attrs(self, base_attrs, extra_attrs=None):
         attrs = super().build_attrs(base_attrs, extra_attrs)
-        attrs["class"] += " btn-check d-none"
+        if "btn-check" not in attrs.get("class", ""):
+            attrs["class"] = "{} btn-check".format(attrs.get("class", "")).strip()
         return attrs

@@ -92,6 +92,12 @@ class GuidanceViewsTestCase(TestCase):
         self.assertContains(page, "Nothing was logged for this month.")
         self.assertContains(page, "Month one: survival, and it counts")
 
+    def test_completion_form_is_marked_as_self_submitting(self):
+        # The toggle never navigates, so the global submit handler must skip it.
+        # Otherwise it disables the button and leaves a spinner spinning.
+        page = self.c.get("/guidance/")
+        self.assertContains(page, "data-bb-async-form")
+
     def test_action_progress_is_shown_and_updates(self):
         page = self.c.get("/guidance/")
         self.assertContains(page, "0 of 1 done")

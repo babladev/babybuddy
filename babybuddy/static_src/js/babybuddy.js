@@ -38,9 +38,11 @@ BabyBuddy.PullToRefresh = (function (ptr) {
  * prevent double-submission.
  */
 (function handleFormSubmit() {
-  // Appearance forms never navigate, so they must not get a spinner.
+  // Forms marked data-bb-async-form handle their own submission and never
+  // navigate. Disabling their button would leave it stuck with a spinner,
+  // because nothing ever replaces the page to reset it.
   $("form")
-    .not("[data-bb-theme-form]")
+    .not("[data-bb-async-form]")
     .on("submit", function (event) {
       var submitter =
         (event.originalEvent && event.originalEvent.submitter) ||
@@ -181,5 +183,92 @@ BabyBuddy.QuickAdd = (function () {
   window.addEventListener("DOMContentLoaded", function () {
     BabyBuddy.Theme.init();
     BabyBuddy.QuickAdd.init();
+    BabyBuddy.DurationPresets.init();
   });
+})();
+
+/**
+ * Quick duration presets on activity forms.
+ *
+ * Sets the end time to the start time plus a fixed number of minutes, which
+ * covers the common case of logging a short activity that has already
+ * finished. The controls stay hidden unless this runs, since they do nothing
+ * without scripting.
+ *
+ * @type {{init: BabyBuddy.DurationPresets.init}}
+ */
+BabyBuddy.DurationPresets = (function () {
+  /**
+   * Format a Date for a datetime-local input, in local time.
+   *
+   * toISOString would convert to UTC and shift the value, so the parts are
+   * assembled by hand.
+   */
+  function toInputValue(date) {
+    function pad(value) {
+      return String(value).padStart(2, "0");
+    }
+    return (
+      date.getFullYear() +
+      "-" +
+      pad(date.getMonth() + 1) +
+      "-" +
+      pad(date.getDate()) +
+      "T" +
+      pad(date.getHours()) +
+      ":" +
+      pad(date.getMinutes()) +
+      ":" +
+      pad(date.getSeconds())
+    );
+  }
+
+  function apply(container, minutes) {
+    var startField = document.getElementById(
+      container.getAttribute("data-bb-start-field"),
+    );
+    var endField = document.getElementById(
+      container.getAttribute("data-bb-end-field"),
+    );
+    if (!startField || !endField) {
+      return;
+    }
+
+    var start = startField.value ? new Date(startField.value) : new Date();
+    if (isNaN(start.getTime())) {
+      start = new Date();
+    }
+    startField.value = toInputValue(start);
+
+    var end = new Date(start.getTime() + minutes * 60000);
+    endField.value = toInputValue(end);
+
+    // Let any listeners (validation, timers) know the values changed.
+    [startField, endField].forEach(function (field) {
+      field.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+  }
+
+  return {
+    init: function () {
+      document
+        .querySelectorAll("[data-bb-duration-presets]")
+        .forEach(function (container) {
+          container.removeAttribute("hidden");
+          container
+            .querySelectorAll("[data-bb-duration-minutes]")
+            .forEach(function (button) {
+              button.addEventListener("click", function () {
+                var minutes = parseInt(
+                  button.getAttribute("data-bb-duration-minutes"),
+                  10,
+                );
+                if (!isNaN(minutes)) {
+                  apply(container, minutes);
+                }
+              });
+            });
+        });
+    },
+  };
 })();

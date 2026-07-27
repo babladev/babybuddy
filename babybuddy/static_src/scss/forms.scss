@@ -16,6 +16,64 @@
     }
 }
 
+// Selectable pills, used for radio groups such as the child, feeding type and
+// feeding method choices. These replace Bootstrap's btn-outline-light, which is
+// designed for a dark background and rendered as white text on white in the
+// light colour scheme.
+// The paired input carries .btn-check, which hides it but keeps it focusable so
+// the browser can anchor a validation message to it.
+.bb-pill {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--bb-separator);
+    border-radius: $border-radius-pill;
+    color: var(--bs-body-color);
+    background-color: var(--bb-surface);
+    font-weight: $font-weight-medium;
+    transition: $transition-base;
+
+    &:hover {
+        border-color: var(--bs-body-color);
+        color: var(--bs-body-color);
+        background-color: var(--bb-fill-subtle);
+    }
+
+    // The child pill carries a photo, so it needs a little more room.
+    &--child {
+        padding: 0.375rem 1rem 0.375rem 0.375rem;
+    }
+
+    &--sm {
+        padding: 0.25rem 0.75rem;
+        font-size: 0.8125rem;
+    }
+
+    img {
+        width: 2rem;
+        height: 2rem;
+        object-fit: cover;
+    }
+}
+
+// More specific than .bb-pill:hover, so the selected state survives hovering.
+.btn-check:checked + .bb-pill {
+    border-color: $primary;
+    color: color-contrast($primary);
+    background-color: $primary;
+}
+
+.btn-check:focus-visible + .bb-pill {
+    border-color: $primary;
+    box-shadow: 0 0 0 $focus-ring-width $focus-ring-color;
+}
+
+// A required pill group that has not been answered.
+.btn-check.is-invalid + .bb-pill {
+    border-color: $danger;
+}
+
 .boolean-label {
     pointer-events: none;
 }
@@ -90,4 +148,21 @@
     // removing this causes slight mis-alignment between fields in the details and the rest of the fields 
     //on the form at the left hand side of the box
     padding-right: 0;
+}
+
+// Quick duration presets under an activity's end time field.
+.bb-duration-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.bb-duration-presets__label {
+    color: var(--bs-secondary-color);
+    font-size: 0.6875rem;
+    font-weight: $font-weight-semibold;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }

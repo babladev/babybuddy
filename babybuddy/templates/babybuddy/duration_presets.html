@@ -1,0 +1,36 @@
+{% load i18n %}
+{% comment %}
+Quick duration presets for activities with a start and an end time.
+
+Each button sets the end time to the start time plus the given number of
+minutes, defaulting the start time to now if it is empty. The block is hidden
+until JavaScript reveals it, because it does nothing without scripting.
+{% endcomment %}
+<div class="bb-duration-presets"
+     data-bb-duration-presets
+     data-bb-start-field="id_start"
+     data-bb-end-field="id_{{ field.name }}"
+     hidden>
+    <span class="bb-duration-presets__label">{% trans "Duration" %}</span>
+    <button type="button"
+            class="btn bb-pill bb-pill--sm"
+            data-bb-duration-minutes="1">
+        {% blocktrans trimmed with minutes=1 %}
+            {{ minutes }} min
+        {% endblocktrans %}
+    </button>
+    <button type="button"
+            class="btn bb-pill bb-pill--sm"
+            data-bb-duration-minutes="5">
+        {% blocktrans trimmed with minutes=5 %}
+            {{ minutes }} min
+        {% endblocktrans %}
+    </button>
+    <button type="button"
+            class="btn bb-pill bb-pill--sm"
+            data-bb-duration-minutes="10">
+        {% blocktrans trimmed with minutes=10 %}
+            {{ minutes }} min
+        {% endblocktrans %}
+    </button>
+</div>

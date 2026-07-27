@@ -1,7 +1,7 @@
 {% load imagekit static %}
 {% include "django/forms/widgets/input.html" %}
 <label {% if widget.attrs.id %}for="{{ widget.attrs.id }}"{% endif %}
-       class="btn btn-outline-light btn-no-hover">
+       class="btn bb-pill bb-pill--child">
     {% include "core/child_thumbnail.html" with child=widget %}
-    {{ widget.label }}
+    <span>{{ widget.label }}</span>
 </label>

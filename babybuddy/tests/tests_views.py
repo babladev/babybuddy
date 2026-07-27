@@ -189,6 +189,12 @@ class ThemeViewsTestCase(TestCase):
         self.user.settings.refresh_from_db()
         self.assertEqual(self.user.settings.theme, "auto")
 
+    def test_theme_form_is_marked_as_self_submitting(self):
+        # Without this marker the global submit handler disables the button and
+        # leaves a spinner on it forever, because the page never navigates.
+        page = self.c.get("/dashboard/", follow=True)
+        self.assertContains(page, "data-bb-async-form")
+
     def test_theme_get_not_allowed(self):
         page = self.c.get("/user/theme/")
         self.assertEqual(page.status_code, 405)

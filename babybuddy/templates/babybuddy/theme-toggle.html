@@ -14,7 +14,8 @@ The bundled icon font has no sun or moon glyph, so these are inline SVG.
         <form action="{% url 'babybuddy:user-theme' %}"
               method="post"
               class="bb-theme-toggle__form"
-              data-bb-theme-form>
+              data-bb-theme-form
+              data-bb-async-form>
             {% csrf_token %}
             <input type="hidden" name="theme" value="{{ value }}" />
             <input type="hidden" name="next" value="{{ request.get_full_path }}" />

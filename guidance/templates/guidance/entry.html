@@ -10,7 +10,8 @@ Expects `entry`, `group`, and one of `child` (a Child) or `pregnancy`.
         <form action="{% url 'guidance:completion-toggle' %}"
               method="post"
               class="bb-guidance-entry__toggle"
-              data-bb-guidance-form>
+              data-bb-guidance-form
+              data-bb-async-form>
             {% csrf_token %}
             <input type="hidden" name="entry" value="{{ entry.id }}" />
             {% if child %}
