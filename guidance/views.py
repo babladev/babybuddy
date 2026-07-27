@@ -15,7 +15,11 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
-from babybuddy.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from babybuddy.mixins import (
+    CancelUrlMixin,
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+)
 from core.models import Child
 from guidance import recap, timeline
 from guidance.forms import PregnancyForm
@@ -163,7 +167,9 @@ class PregnancyList(PermissionRequiredMixin, ListView):
     permission_required = ("guidance.view_pregnancy",)
 
 
-class PregnancyAdd(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+class PregnancyAdd(
+    CancelUrlMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView
+):
     model = Pregnancy
     template_name = "guidance/pregnancy_form.html"
     permission_required = ("guidance.add_pregnancy",)
@@ -172,7 +178,9 @@ class PregnancyAdd(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = gettext_lazy("Pregnancy added!")
 
 
-class PregnancyUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class PregnancyUpdate(
+    CancelUrlMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView
+):
     model = Pregnancy
     template_name = "guidance/pregnancy_form.html"
     permission_required = ("guidance.change_pregnancy",)

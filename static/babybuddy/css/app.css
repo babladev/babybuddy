@@ -12040,19 +12040,41 @@ textarea.form-control-lg {
   pointer-events: none;
 }
 
-.submit-primary {
+.bb-form-actions {
   position: fixed;
   right: max(0.75rem, env(safe-area-inset-right));
   bottom: calc(var(--bb-tabbar-height) + var(--bb-safe-area-bottom) + 0.75rem);
   left: max(0.75rem, env(safe-area-inset-left));
   z-index: 1030;
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.submit-primary {
   display: block;
-  width: auto;
+  flex: 1 1 auto;
   padding: 0.875rem;
   border-radius: 50rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 16px 48px rgba(0, 0, 0, 0.12);
   font-size: 1rem;
   font-weight: 600;
+}
+
+.bb-form-actions__cancel {
+  flex: 0 0 auto;
+  padding: 0.875rem 1.25rem;
+  border: 0;
+  border-radius: 50rem;
+  color: var(--bs-body-color);
+  background-color: var(--bb-surface-raised);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 16px 48px rgba(0, 0, 0, 0.12);
+  font-size: 1rem;
+  font-weight: 500;
+}
+.bb-form-actions__cancel:hover, .bb-form-actions__cancel:focus {
+  color: var(--bs-body-color);
+  background-color: var(--bb-fill-strong);
 }
 
 .pill-container {
@@ -12074,15 +12096,27 @@ textarea.form-control-lg {
 }
 
 @media (min-width: 768px) {
-  .submit-primary {
+  .bb-form-actions {
     position: relative;
     right: auto;
     bottom: auto;
     left: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+  .submit-primary {
     display: inline-block;
-    width: auto;
+    flex: 0 0 auto;
     padding: 0.5rem 1rem;
     border-radius: 0.625rem;
+    box-shadow: none;
+    font-size: 1rem;
+  }
+  .bb-form-actions__cancel {
+    padding: 0.5rem 1rem;
+    border-radius: 0.625rem;
+    background-color: transparent;
     box-shadow: none;
     font-size: 1rem;
   }

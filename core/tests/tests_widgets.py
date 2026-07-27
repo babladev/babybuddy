@@ -7,7 +7,7 @@ from django.test import Client as HttpClient, TestCase
 
 from faker import Faker
 
-from core.models import Child
+from core.models import Child, Weight
 from core.widgets import ChildRadioSelect, PillRadioSelect
 
 
@@ -137,3 +137,70 @@ class DurationPresetsTestCase(TestCase):
             with self.subTest(path=path):
                 page = self.c.get(path)
                 self.assertNotIn("bb-duration-presets", page.content.decode())
+
+
+class CancelButtonTestCase(TestCase):
+    """
+    Every entry form offers a way out that is not the browser's back button.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super(CancelButtonTestCase, cls).setUpClass()
+        fake = Faker()
+        call_command("migrate", verbosity=0)
+
+        fake_user = fake.simple_profile()
+        cls.credentials = {
+            "username": fake_user["username"],
+            "password": fake.password(),
+        }
+        cls.user = get_user_model().objects.create_user(
+            is_superuser=True, is_staff=True, **cls.credentials
+        )
+
+    def setUp(self):
+        self.c = HttpClient()
+        self.c.login(**self.credentials)
+        self.child = Child.objects.create(
+            first_name="Cancel",
+            last_name="Test",
+            birth_date=datetime.date.today() - datetime.timedelta(days=30),
+        )
+
+    def test_add_forms_cancel_to_the_relevant_list(self):
+        expected = {
+            "/feedings/add/": "/feedings/",
+            "/sleep/add/": "/sleep/",
+            "/tummy-time/add/": "/tummy-time/",
+            "/changes/add/": "/changes/",
+            "/weight/add/": "/weight/",
+            "/temperature/add/": "/temperature/",
+            "/notes/add/": "/notes/",
+            "/children/add/": "/children/",
+        }
+        for path, cancel_url in expected.items():
+            with self.subTest(path=path):
+                page = self.c.get(path)
+                self.assertEqual(page.context["cancel_url"], cancel_url)
+                self.assertContains(page, f'href="{cancel_url}"')
+                self.assertContains(page, "bb-form-actions__cancel")
+
+    def test_edit_forms_offer_cancel(self):
+        weight = Weight.objects.create(
+            child=self.child, weight=3.6, date=datetime.date.today()
+        )
+        page = self.c.get(f"/weight/{weight.id}/")
+        self.assertEqual(page.context["cancel_url"], "/weight/")
+
+    def test_a_new_timer_cancels_to_the_timer_list(self):
+        # A timer redirects to its own detail page on success, which does not
+        # exist yet while the form is open.
+        page = self.c.get("/timers/add/")
+        self.assertEqual(page.context["cancel_url"], "/timers/")
+
+    def test_cancelling_creates_nothing(self):
+        before = Weight.objects.count()
+        page = self.c.get("/weight/add/")
+        self.c.get(page.context["cancel_url"])
+        self.assertEqual(Weight.objects.count(), before)

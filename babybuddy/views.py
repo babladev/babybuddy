@@ -47,7 +47,12 @@ from axes.utils import reset
 from django_filters.views import FilterView
 
 from babybuddy import forms
-from babybuddy.mixins import LoginRequiredMixin, PermissionRequiredMixin, StaffOnlyMixin
+from babybuddy.mixins import (
+    CancelUrlMixin,
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    StaffOnlyMixin,
+)
 from babybuddy.models import Settings
 
 
@@ -120,7 +125,13 @@ class UserList(StaffOnlyMixin, BabyBuddyFilterView):
     filterset_fields = ("username", "first_name", "last_name", "email")
 
 
-class UserAdd(StaffOnlyMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+class UserAdd(
+    CancelUrlMixin,
+    StaffOnlyMixin,
+    PermissionRequiredMixin,
+    SuccessMessageMixin,
+    CreateView,
+):
     model = get_user_model()
     template_name = "babybuddy/user_form.html"
     permission_required = ("admin.add_user",)
@@ -130,7 +141,11 @@ class UserAdd(StaffOnlyMixin, PermissionRequiredMixin, SuccessMessageMixin, Crea
 
 
 class UserUpdate(
-    StaffOnlyMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView
+    CancelUrlMixin,
+    StaffOnlyMixin,
+    PermissionRequiredMixin,
+    SuccessMessageMixin,
+    UpdateView,
 ):
     model = get_user_model()
     template_name = "babybuddy/user_form.html"

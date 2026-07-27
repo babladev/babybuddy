@@ -80,19 +80,47 @@
 
 // Use a wide, fixed button on smaller screens. It floats above the tab bar
 // rather than sitting flush against the bottom edge of the viewport.
-.submit-primary {
+// On small screens the form actions float above the tab bar, within thumb
+// reach, rather than sitting at the far end of a long form.
+.bb-form-actions {
     position: fixed;
     right: max(0.75rem, env(safe-area-inset-right));
     bottom: calc(var(--bb-tabbar-height) + var(--bb-safe-area-bottom) + 0.75rem);
     left: max(0.75rem, env(safe-area-inset-left));
     z-index: 1030;
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+}
+
+.submit-primary {
     display: block;
-    width: auto;
+    flex: 1 1 auto;
     padding: 0.875rem;
     border-radius: $border-radius-pill;
     box-shadow: $box-shadow-lg;
     font-size: 1rem;
     font-weight: $font-weight-semibold;
+}
+
+// Deliberately quieter than submit: cancelling is the less common intent, and a
+// discard control should not compete with the action that keeps the entry.
+.bb-form-actions__cancel {
+    flex: 0 0 auto;
+    padding: 0.875rem 1.25rem;
+    border: 0;
+    border-radius: $border-radius-pill;
+    color: var(--bs-body-color);
+    background-color: var(--bb-surface-raised);
+    box-shadow: $box-shadow-lg;
+    font-size: 1rem;
+    font-weight: $font-weight-medium;
+
+    &:hover,
+    &:focus {
+        color: var(--bs-body-color);
+        background-color: var(--bb-fill-strong);
+    }
 }
 
 .pill-container {
@@ -120,15 +148,29 @@
 
 @include media-breakpoint-up(md) {
     // Restore regular inline button on larger screens.
-    .submit-primary {
+    .bb-form-actions {
         position: relative;
         right: auto;
         bottom: auto;
         left: auto;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+    }
+
+    .submit-primary {
         display: inline-block;
-        width: auto;
+        flex: 0 0 auto;
         padding: $btn-padding-y $btn-padding-x;
         border-radius: $btn-border-radius;
+        box-shadow: none;
+        font-size: $font-size-base;
+    }
+
+    .bb-form-actions__cancel {
+        padding: $btn-padding-y $btn-padding-x;
+        border-radius: $btn-border-radius;
+        background-color: transparent;
         box-shadow: none;
         font-size: $font-size-base;
     }

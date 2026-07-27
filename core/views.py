@@ -12,7 +12,11 @@ from django.views.generic.base import RedirectView, TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
-from babybuddy.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from babybuddy.mixins import (
+    CancelUrlMixin,
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+)
 from babybuddy.views import BabyBuddyFilterView, BabyBuddyPaginatedView
 from core import filters, forms, models, timeline
 
@@ -28,7 +32,9 @@ def _prepare_timeline_context_data(context, date, child=None):
     pass
 
 
-class CoreAddView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+class CoreAddView(
+    CancelUrlMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView
+):
     def get_success_message(self, cleaned_data):
         cleaned_data["model"] = self.model._meta.verbose_name.title()
         if "child" in cleaned_data:
@@ -56,7 +62,9 @@ class CoreAddView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
         return kwargs
 
 
-class CoreUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class CoreUpdateView(
+    CancelUrlMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView
+):
     def get_success_message(self, cleaned_data):
         cleaned_data["model"] = self.model._meta.verbose_name.title()
         if "child" in cleaned_data:
@@ -507,10 +515,13 @@ class TimerDetail(PermissionRequiredMixin, DetailView):
     permission_required = ("core.view_timer",)
 
 
-class TimerAdd(PermissionRequiredMixin, CreateView):
+class TimerAdd(CancelUrlMixin, PermissionRequiredMixin, CreateView):
     model = models.Timer
     permission_required = ("core.add_timer",)
     form_class = forms.TimerForm
+    # A new timer redirects to its own detail page on success, which does not
+    # exist yet when cancelling.
+    cancel_url = reverse_lazy("core:timer-list")
 
     def get_form_kwargs(self):
         kwargs = super(TimerAdd, self).get_form_kwargs()
