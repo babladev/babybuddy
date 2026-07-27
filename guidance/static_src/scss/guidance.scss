@@ -216,7 +216,7 @@
 
     &--current {
         color: #fff;
-        background-color: map.get($theme-colors, 'primary');
+        background-color: $primary-strong;
     }
 }
 

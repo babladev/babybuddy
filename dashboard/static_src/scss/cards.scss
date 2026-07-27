@@ -8,6 +8,7 @@
 
 .card-dashboard {
     --bb-accent: #{map.get($theme-colors, 'primary')};
+    --bb-accent-text: var(--bs-primary-text-emphasis);
 
     margin-bottom: $spacer;
     overflow: hidden;
@@ -20,7 +21,7 @@
         align-items: center;
         padding-bottom: 0.25rem;
         border-bottom: 0;
-        color: var(--bb-accent);
+        color: var(--bb-accent-text);
         background-color: transparent;
         font-size: 0.75rem;
         font-weight: $font-weight-semibold;
@@ -112,6 +113,10 @@
 }
 
 // Accent assignment per activity type.
+// Two variables per type: --bb-accent fills shapes, --bb-accent-text colours
+// small text. The raw theme colours are too light to read as text on a white
+// surface, so text uses Bootstrap's *-text-emphasis variables, which are
+// already darkened for the light scheme and lightened for the dark one.
 $bb-card-accents: (
     'diaperchange': 'danger',
     'medication': 'danger',
@@ -127,6 +132,7 @@ $bb-card-accents: (
 @each $type, $color in $bb-card-accents {
     .card-#{$type} {
         --bb-accent: #{map.get($theme-colors, $color)};
+        --bb-accent-text: var(--bs-#{$color}-text-emphasis);
     }
 }
 
@@ -135,7 +141,7 @@ $bb-card-accents: (
     .card-body {
         // Last feeding method header in card.
         .last-feeding-method {
-            color: var(--bb-accent);
+            color: var(--bb-accent-text);
             font-size: 1.75rem;
             font-weight: $font-weight-semibold;
         }
@@ -174,5 +180,87 @@ $bb-card-accents: (
         .badge {
             font-size: 0.75rem;
         }
+    }
+}
+
+// Per-day breakdown rows (diaper change types, breastfeeding sides).
+// The bar shows proportion only. Counts are read from the legend beneath it,
+// where they sit on the card surface and stay legible at any segment width.
+
+.card-dashboard .bb-stat-row + .bb-stat-row {
+    margin-top: 0.875rem;
+}
+
+.bb-stat-row__header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.125rem 0.5rem;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+}
+
+.bb-stat-row__label {
+    color: var(--bs-body-color);
+    font-size: 0.8125rem;
+    font-weight: $font-weight-medium;
+}
+
+.bb-stat-row__total {
+    color: var(--bs-secondary-color);
+    font-size: 0.75rem;
+}
+
+.card-dashboard .progress.bb-stat-bar {
+    height: 0.625rem;
+    border-radius: $border-radius-pill;
+    background-color: var(--bb-fill-strong);
+}
+
+// More specific than the generic accent colour applied to .progress-bar.
+.bb-stat-bar .progress-bar {
+    &.bb-stat-bar__segment--wet,
+    &.bb-stat-bar__segment--left {
+        background-color: map.get($theme-colors, 'primary');
+    }
+
+    &.bb-stat-bar__segment--solid,
+    &.bb-stat-bar__segment--right {
+        background-color: map.get($theme-colors, 'secondary');
+    }
+}
+
+.bb-stat-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.875rem;
+    padding-left: 0;
+    margin-top: 0.3rem;
+    margin-bottom: 0;
+    color: var(--bs-body-color);
+    font-size: 0.8125rem;
+    list-style: none;
+
+    li {
+        display: inline-flex;
+        gap: 0.375rem;
+        align-items: center;
+    }
+}
+
+.bb-stat-legend__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--bs-secondary-color);
+
+    &--wet,
+    &--left {
+        background-color: map.get($theme-colors, 'primary');
+    }
+
+    &--solid,
+    &--right {
+        background-color: map.get($theme-colors, 'secondary');
     }
 }

@@ -11918,7 +11918,7 @@ textarea.form-control-lg {
   border: 0;
   border-radius: 50%;
   color: #fff;
-  background-image: linear-gradient(160deg, rgb(91.7567567568, 186.4378378378, 237.0432432432), rgb(24.4972972973, 153.6648648649, 222.7027027027));
+  background-image: linear-gradient(160deg, rgb(21.4648648649, 134.6432432432, 195.1351351351), rgb(14.3891891892, 90.2594594595, 130.8108108108));
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18), 0 10px 32px rgba(55, 171, 233, 0.28);
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
 }
@@ -12540,7 +12540,7 @@ h3,
   margin-left: -22px;
   border-radius: 50%;
   color: #fff;
-  background-color: #37abe9;
+  background-color: rgb(17.4216216216, 109.2810810811, 158.3783783784);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.08);
   font-size: 1.25em;
   line-height: 44px;
@@ -12574,6 +12574,7 @@ h3,
 
 .card-dashboard {
   --bb-accent: #37abe9;
+  --bb-accent-text: var(--bs-primary-text-emphasis);
   margin-bottom: 1rem;
   overflow: hidden;
   background-color: var(--bb-surface);
@@ -12585,7 +12586,7 @@ h3,
   align-items: center;
   padding-bottom: 0.25rem;
   border-bottom: 0;
-  color: var(--bb-accent);
+  color: var(--bb-accent-text);
   background-color: transparent;
   font-size: 0.75rem;
   font-weight: 600;
@@ -12657,43 +12658,52 @@ h3,
 
 .card-diaperchange {
   --bb-accent: #ff453a;
+  --bb-accent-text: var(--bs-danger-text-emphasis);
 }
 
 .card-medication {
   --bb-accent: #ff453a;
+  --bb-accent-text: var(--bs-danger-text-emphasis);
 }
 
 .card-medication-status {
   --bb-accent: #37abe9;
+  --bb-accent-text: var(--bs-primary-text-emphasis);
 }
 
 .card-feeding {
   --bb-accent: #37abe9;
+  --bb-accent-text: var(--bs-primary-text-emphasis);
 }
 
 .card-pumping {
   --bb-accent: #37abe9;
+  --bb-accent-text: var(--bs-primary-text-emphasis);
 }
 
 .card-sleep {
   --bb-accent: #ff9f0a;
+  --bb-accent-text: var(--bs-secondary-text-emphasis);
 }
 
 .card-tummytime {
   --bb-accent: #32d74b;
+  --bb-accent-text: var(--bs-success-text-emphasis);
 }
 
 .card-statistics {
   --bb-accent: #64d2ff;
+  --bb-accent-text: var(--bs-info-text-emphasis);
 }
 
 .card-timer {
   --bb-accent: #64d2ff;
+  --bb-accent-text: var(--bs-info-text-emphasis);
 }
 
 .card-feeding .card-body .last-feeding-method,
 .card-pumping .card-body .last-feeding-method {
-  color: var(--bb-accent);
+  color: var(--bb-accent-text);
   font-size: 1.75rem;
   font-weight: 600;
 }
@@ -12723,6 +12733,73 @@ h3,
 }
 .card-medication-status .medication-status-item .badge {
   font-size: 0.75rem;
+}
+
+.card-dashboard .bb-stat-row + .bb-stat-row {
+  margin-top: 0.875rem;
+}
+
+.bb-stat-row__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem 0.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.bb-stat-row__label {
+  color: var(--bs-body-color);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.bb-stat-row__total {
+  color: var(--bs-secondary-color);
+  font-size: 0.75rem;
+}
+
+.card-dashboard .progress.bb-stat-bar {
+  height: 0.625rem;
+  border-radius: 50rem;
+  background-color: var(--bb-fill-strong);
+}
+
+.bb-stat-bar .progress-bar.bb-stat-bar__segment--wet, .bb-stat-bar .progress-bar.bb-stat-bar__segment--left {
+  background-color: #37abe9;
+}
+.bb-stat-bar .progress-bar.bb-stat-bar__segment--solid, .bb-stat-bar .progress-bar.bb-stat-bar__segment--right {
+  background-color: #ff9f0a;
+}
+
+.bb-stat-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.875rem;
+  padding-left: 0;
+  margin-top: 0.3rem;
+  margin-bottom: 0;
+  color: var(--bs-body-color);
+  font-size: 0.8125rem;
+  list-style: none;
+}
+.bb-stat-legend li {
+  display: inline-flex;
+  gap: 0.375rem;
+  align-items: center;
+}
+
+.bb-stat-legend__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--bs-secondary-color);
+}
+.bb-stat-legend__dot--wet, .bb-stat-legend__dot--left {
+  background-color: #37abe9;
+}
+.bb-stat-legend__dot--solid, .bb-stat-legend__dot--right {
+  background-color: #ff9f0a;
 }
 
 .bb-child-card .card-body {
@@ -12976,7 +13053,7 @@ h3,
 }
 .bb-guidance-months__link--current {
   color: #fff;
-  background-color: #37abe9;
+  background-color: rgb(17.4216216216, 109.2810810811, 158.3783783784);
 }
 
 .bb-guidance-monthnav {

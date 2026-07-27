@@ -21,6 +21,11 @@ $gray-900: #1c1c1e;
 $black: #000;
 
 $primary: #37abe9;
+
+// The brand blue is light: white text on it lands around 2.4:1, well below the
+// 4.5:1 needed to be comfortably readable. This darker shade is used wherever a
+// filled surface carries white text.
+$primary-strong: color.adjust($primary, $lightness: -22%);
 $danger: #ff453a;
 $error: $danger;
 $secondary: #ff9f0a;

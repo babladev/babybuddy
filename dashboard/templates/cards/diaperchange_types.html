@@ -11,37 +11,64 @@
     {% endif %}
 {% endblock %}
 {% block content %}
+    {% comment %}
+    Counts sit in a legend below each bar rather than inside the coloured
+    segments. Text inside a segment overflows once the segment is narrow, and
+    white on a mid-tone fill is hard to read.
+    {% endcomment %}
     {% for key, info in stats.items %}
         {% if info.wet > 0 or info.solid > 0 or info.empty > 0 %}
-            <div class="progress mt-3" role="progressbar">
-                {% if info.wet_pct > 0 %}
-                    <div class="progress-bar bg-primary lead"
-                         style="width: {{ info.wet_pct|safe }}%">
-                        {{ info.wet|floatformat:'0' }}&nbsp;{% trans "wet" %}
-                    </div>
-                {% endif %}
-                {% if info.solid_pct > 0 %}
-                    <div class="progress-bar bg-secondary lead"
-                         style="width: {{ info.solid_pct|safe }}%">
-                        {{ info.solid|floatformat:'0' }}&nbsp;{% trans "solid" %}
-                    </div>
-                {% endif %}
-                {% if info.empty_pct > 0 %}
-                    <div class="progress-bar bg-transparent lead"
-                         style="width: {{ info.empty_pct|safe }}%">{{ info.empty|floatformat:'0' }}</div>
-                {% endif %}
-            </div>
-            <div class="text-center text-body-secondary small">
-                {% if key == 0 %}
-                    {% trans "today" %}
-                {% elif key == 1 %}
-                    {% trans "yesterday" %}
-                {% else %}
-                    {% blocktrans with days_ago=key %}{{ days_ago }} days ago{% endblocktrans %}
-                {% endif %}
-                {% if info.changes > 0 %}
-                    ({{ info.changes|floatformat:'0' }} {% trans "changes" %})
-                {% endif %}
+            <div class="bb-stat-row">
+                <div class="bb-stat-row__header">
+                    <span class="bb-stat-row__label">
+                        {% if key == 0 %}
+                            {% trans "today" %}
+                        {% elif key == 1 %}
+                            {% trans "yesterday" %}
+                        {% else %}
+                            {% blocktrans with days_ago=key %}{{ days_ago }} days ago{% endblocktrans %}
+                        {% endif %}
+                    </span>
+                    {% if info.changes > 0 %}
+                        <span class="bb-stat-row__total">
+                            {% blocktrans with count=info.changes|floatformat:'0' %}
+                                {{ count }} changes
+                            {% endblocktrans %}
+                        </span>
+                    {% endif %}
+                </div>
+                {# The legend below states every count, so the bar itself is decorative. #}
+                <div class="progress bb-stat-bar" aria-hidden="true">
+                    {% if info.wet_pct > 0 %}
+                        <div class="progress-bar bb-stat-bar__segment--wet"
+                             style="width: {{ info.wet_pct|safe }}%"></div>
+                    {% endif %}
+                    {% if info.solid_pct > 0 %}
+                        <div class="progress-bar bb-stat-bar__segment--solid"
+                             style="width: {{ info.solid_pct|safe }}%"></div>
+                    {% endif %}
+                </div>
+                <ul class="bb-stat-legend">
+                    {% if info.wet > 0 %}
+                        <li>
+                            <span class="bb-stat-legend__dot bb-stat-legend__dot--wet"></span>
+                            {{ info.wet|floatformat:'0' }} {% trans "wet" %}
+                        </li>
+                    {% endif %}
+                    {% if info.solid > 0 %}
+                        <li>
+                            <span class="bb-stat-legend__dot bb-stat-legend__dot--solid"></span>
+                            {{ info.solid|floatformat:'0' }} {% trans "solid" %}
+                        </li>
+                    {% endif %}
+                    {% if info.empty > 0 %}
+                        {# Changes recorded as neither wet nor solid. #}
+                        <li>
+                            <span class="bb-stat-legend__dot"></span>
+                            {{ info.empty|floatformat:'0' }} {% trans "neither" %}
+                        </li>
+                    {% endif %}
+                </ul>
             </div>
         {% endif %}
     {% endfor %}

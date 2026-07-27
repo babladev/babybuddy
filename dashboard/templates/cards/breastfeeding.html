@@ -11,25 +11,48 @@
     {% endif %}
 {% endblock %}
 {% block content %}
+    {% comment %}
+    See cards/diaperchange_types.html: the counts are read from a legend rather
+    than from inside the coloured segments.
+    {% endcomment %}
     {% for key, info in stats.items %}
         {% if info.left_count > 0 or info.right_count > 0 %}
-            <div class="progress mt-3" role="progressbar">
-                <div class="progress-bar bg-primary lead"
-                     style="width: {{ info.left_pct|safe }}%">{{ info.left_count }}&nbsp;{% trans "left" %}</div>
-                <div class="progress-bar bg-secondary lead"
-                     style="width: {{ info.right_pct|safe }}%">{{ info.right_count }}&nbsp;{% trans "right" %}</div>
-            </div>
-            <div class="text-center text-body-secondary small">
-                {% if key == 0 %}
-                    {% trans "today" %}
-                {% elif key == 1 %}
-                    {% trans "yesterday" %}
-                {% else %}
-                    {% blocktrans with days_ago=key %}{{ days_ago }} days ago{% endblocktrans %}
-                {% endif %}
-                {% if info.count > 0 %}
-                    ({{ info.count }} {% trans "feedings in" %} {{ info.duration|duration_string:'m' }})
-                {% endif %}
+            <div class="bb-stat-row">
+                <div class="bb-stat-row__header">
+                    <span class="bb-stat-row__label">
+                        {% if key == 0 %}
+                            {% trans "today" %}
+                        {% elif key == 1 %}
+                            {% trans "yesterday" %}
+                        {% else %}
+                            {% blocktrans with days_ago=key %}{{ days_ago }} days ago{% endblocktrans %}
+                        {% endif %}
+                    </span>
+                    {% if info.count > 0 %}
+                        <span class="bb-stat-row__total">
+                            {% blocktrans trimmed with count=info.count duration=info.duration|duration_string:'m' %}
+                                {{ count }} feedings in {{ duration }}
+                            {% endblocktrans %}
+                        </span>
+                    {% endif %}
+                </div>
+                {# The legend below states every count, so the bar itself is decorative. #}
+                <div class="progress bb-stat-bar" aria-hidden="true">
+                    <div class="progress-bar bb-stat-bar__segment--left"
+                         style="width: {{ info.left_pct|safe }}%"></div>
+                    <div class="progress-bar bb-stat-bar__segment--right"
+                         style="width: {{ info.right_pct|safe }}%"></div>
+                </div>
+                <ul class="bb-stat-legend">
+                    <li>
+                        <span class="bb-stat-legend__dot bb-stat-legend__dot--left"></span>
+                        {{ info.left_count }} {% trans "left" %}
+                    </li>
+                    <li>
+                        <span class="bb-stat-legend__dot bb-stat-legend__dot--right"></span>
+                        {{ info.right_count }} {% trans "right" %}
+                    </li>
+                </ul>
             </div>
         {% endif %}
     {% endfor %}

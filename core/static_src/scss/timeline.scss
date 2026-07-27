@@ -81,7 +81,7 @@
             margin-left: -22px;
             border-radius: 50%;
             color: #fff;
-            background-color: map.get($theme-colors, 'primary');
+            background-color: $primary-strong;
             box-shadow: $box-shadow-sm;
             font-size: 1.25em;
             line-height: 44px;
