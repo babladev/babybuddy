@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils import timezone, timesince
 from django.utils.translation import gettext as _
 
+from babybuddy import units
 from core.models import (
     DiaperChange,
     Feeding,
@@ -148,7 +149,9 @@ def _add_feedings(min_date, max_date, events, child=None):
             continue
         edit_link = reverse("core:feeding-update", args=[instance.id])
         if instance.amount:
-            details.append(_("Amount") + ": " + str(instance.amount))
+            details.append(
+                _("Amount") + ": " + units.format_value(units.VOLUME, instance.amount)
+            )
 
         base_object = {
             "time": timezone.localtime(instance.start),
@@ -294,7 +297,11 @@ def _add_temperature_measurements(min_date, max_date, events, child):
         if instance.notes:
             details.append(instance.notes)
         if instance.temperature:
-            details.append(_("Temperature") + ": " + str(instance.temperature))
+            details.append(
+                _("Temperature")
+                + ": "
+                + units.format_value(units.TEMPERATURE, instance.temperature)
+            )
         events.append(
             {
                 "time": timezone.localtime(instance.time),

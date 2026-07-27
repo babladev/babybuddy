@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 import plotly.offline as plotly
 import plotly.graph_objs as go
 
+from babybuddy import units
 from reports import utils
 
 
@@ -18,7 +19,9 @@ def temperature_change(objects):
     trace = go.Scatter(
         name=_("Temperature"),
         x=list(objects.values_list("time", flat=True)),
-        y=list(objects.values_list("temperature", flat=True)),
+        y=units.convert_list(
+            units.TEMPERATURE, objects.values_list("temperature", flat=True)
+        ),
     )
 
     layout_args = utils.default_graph_layout_options()
@@ -29,7 +32,9 @@ def temperature_change(objects):
     layout_args["xaxis"]["autorange"] = True
     layout_args["xaxis"]["autorangeoptions"] = utils.autorangeoptions(trace.x)
     layout_args["xaxis"]["rangeselector"] = utils.rangeselector_time()
-    layout_args["yaxis"]["title"] = _("Temperature")
+    layout_args["yaxis"]["title"] = units.axis_label(
+        _("Temperature"), units.TEMPERATURE
+    )
 
     fig = go.Figure({"data": [trace], "layout": go.Layout(**layout_args)})
     output = plotly.plot(fig, output_type="div", include_plotlyjs=False)

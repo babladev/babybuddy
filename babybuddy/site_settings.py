@@ -7,6 +7,7 @@ import dbsettings
 
 from django.forms.fields import BooleanField
 from core.fields import NapStartMaxTimeField, NapStartMinTimeField
+from babybuddy import units
 from .widgets import TimeInput
 from django.forms.widgets import CheckboxInput
 
@@ -35,6 +36,19 @@ class NapSettings(dbsettings.Group):
             "The maximum default time that a sleep entry is consider a nap. If set the nap property will be preselected if the start time is within the bounds."
         ),
         widget=TimeInput,
+    )
+
+
+class MeasurementSettings(dbsettings.Group):
+    unit_system = dbsettings.StringValue(
+        default=units.METRIC,
+        choices=units.UNIT_SYSTEM_CHOICES,
+        description=_("Unit system"),
+        help_text=_(
+            "Units used when entering and displaying weights, lengths, volumes "
+            "and temperatures. Values are always stored in metric, so switching "
+            "converts what is shown rather than changing the data."
+        ),
     )
 
 

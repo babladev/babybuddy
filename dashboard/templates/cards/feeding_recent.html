@@ -1,5 +1,5 @@
 {% extends 'cards/base.html' %}
-{% load duration i18n %}
+{% load duration i18n units %}
 {% block header %}
     <a href="{% url "core:feeding-list" %}">{% trans "Recent Feedings" %}</a>
 {% endblock %}
@@ -13,7 +13,7 @@
                     <div class="carousel-item{% if forloop.counter == 1 %} active{% endif %}">
                         <div class="last-feeding-method text-center">
                             {% if feeding.total %}
-                                {{ feeding.total|floatformat }}
+                                {{ feeding.total|as_volume }}
                             {% else %}
                                 {% trans "None" %}
                             {% endif %}

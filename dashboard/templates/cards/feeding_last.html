@@ -1,5 +1,5 @@
 {% extends 'cards/base.html' %}
-{% load duration i18n %}
+{% load duration i18n units %}
 {% block header %}
     <a href="{% url "core:feeding-list" %}">{% trans "Last Feeding" %}</a>
 {% endblock %}
@@ -20,6 +20,6 @@
 {% block content %}
     {% if feeding %}
         {{ feeding.get_type_display }}, {{ feeding.get_method_display }}
-        {% if feeding.amount %}({{ feeding.amount }}){% endif %}
+        {% if feeding.amount %}({{ feeding.amount|as_volume }}){% endif %}
     {% endif %}
 {% endblock %}

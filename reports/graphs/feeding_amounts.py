@@ -5,6 +5,7 @@ from django.utils.translation import gettext as _
 import plotly.offline as plotly
 import plotly.graph_objs as go
 
+from babybuddy import units
 from reports import utils
 from core import models
 
@@ -29,8 +30,12 @@ def feeding_amounts(instances):
             for item in totals_list:
                 item[date] = 0
         feeding_idx = feeding_types.index(instance.type)
-        totals_list[feeding_idx][date] += instance.amount or 0
-        totals_list[total_idx - 1][date] += instance.amount or 0
+        totals_list[feeding_idx][date] += units.to_display(
+            units.VOLUME, instance.amount or 0
+        )
+        totals_list[total_idx - 1][date] += units.to_display(
+            units.VOLUME, instance.amount or 0
+        )
     zeros = [0 for a in totals_list[total_idx - 1].values()]
 
     # sum each feeding type for graph
@@ -69,7 +74,7 @@ def feeding_amounts(instances):
     layout_args["title"] = "<b>" + _("Total Feeding Amount by Type") + "</b>"
     layout_args["xaxis"]["title"] = _("Date")
     layout_args["xaxis"]["rangeselector"] = utils.rangeselector_date()
-    layout_args["yaxis"]["title"] = _("Feeding amount")
+    layout_args["yaxis"]["title"] = units.axis_label(_("Feeding amount"), units.VOLUME)
 
     fig = go.Figure({"data": traces, "layout": go.Layout(**layout_args)})
     fig.update_layout(barmode="stack")

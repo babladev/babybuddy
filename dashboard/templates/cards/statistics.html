@@ -1,4 +1,4 @@
-{% load duration i18n %}
+{% load duration i18n units %}
 {% if not empty or not hide_empty %}
     <div class="card card-dashboard card-statistics">
         <div class="card-header">
@@ -15,7 +15,11 @@
                             <div class="carousel-item{% if forloop.counter == 1 %} active{% endif %}">
                                 <span class="card-title">
                                     {% if stat.stat %}
-                                        {% if stat.type == 'duration' %}
+                                        {% if stat.type == 'weight' %}
+                                            {{ stat.stat|as_weight }}
+                                        {% elif stat.type == 'length' %}
+                                            {{ stat.stat|as_length }}
+                                        {% elif stat.type == 'duration' %}
                                             {{ stat.stat|duration_string:'m' }}
                                         {% elif stat.type == 'float' %}
                                             {{ stat.stat|floatformat }}

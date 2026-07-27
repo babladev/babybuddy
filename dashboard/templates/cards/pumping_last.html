@@ -1,5 +1,5 @@
 {% extends 'cards/base.html' %}
-{% load duration i18n %}
+{% load duration i18n units %}
 {% block header %}
     <a href="{% url "core:pumping-list" %}">{% trans "Last Pumping" %}</a>
 {% endblock %}
@@ -17,6 +17,6 @@
 {% endblock %}
 {% block content %}
     {% if pumping %}
-        {% trans "Amount" %}: {{ pumping.amount }}
+        {% trans "Amount" %}: {{ pumping.amount|as_volume }}
     {% endif %}
 {% endblock %}

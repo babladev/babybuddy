@@ -520,7 +520,7 @@ def card_statistics(context, child):
     if weight:
         stats.append(
             {
-                "type": "float",
+                "type": "weight",
                 "stat": weight["change_weekly"],
                 "title": _("Weight change per week"),
             }
@@ -530,7 +530,7 @@ def card_statistics(context, child):
     if height:
         stats.append(
             {
-                "type": "float",
+                "type": "length",
                 "stat": height["change_weekly"],
                 "title": _("Height change per week"),
             }
@@ -540,7 +540,7 @@ def card_statistics(context, child):
     if head_circumference:
         stats.append(
             {
-                "type": "float",
+                "type": "length",
                 "stat": head_circumference["change_weekly"],
                 "title": _("Head circumference change per week"),
             }

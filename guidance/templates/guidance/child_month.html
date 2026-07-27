@@ -1,5 +1,5 @@
 {% extends 'babybuddy/page.html' %}
-{% load duration i18n %}
+{% load duration i18n units %}
 {% block title %}
     {% blocktrans trimmed with month=month child=object %}
         Month {{ month }} - {{ child }}
@@ -57,7 +57,7 @@
                                 <dd>
                                     {{ recap.feeding_count }}
                                     {% if recap.feeding_amount %}
-                                        <span class="bb-recap__note">{{ recap.feeding_amount|floatformat }}</span>
+                                        <span class="bb-recap__note">{{ recap.feeding_amount|as_volume }}</span>
                                     {% endif %}
                                 </dd>
                             </div>
@@ -93,7 +93,7 @@
                                 <div class="bb-recap__row">
                                     <dt>{% trans "Weight change" %}</dt>
                                     <dd>
-                                        {{ recap.weight_change|floatformat }}
+                                        {{ recap.weight_change|as_weight }}
                                     </dd>
                                 </div>
                             {% endif %}

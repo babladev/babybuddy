@@ -5,6 +5,7 @@ from django.utils.translation import gettext as _
 import plotly.offline as plotly
 import plotly.graph_objs as go
 
+from babybuddy import units
 from reports import utils
 
 
@@ -25,7 +26,7 @@ def pumping_amounts(objects):
         if curr_date != date_s:
             date_totals[date_s] = 0.0
             curr_date = date_s
-        date_totals[date_s] += object.amount
+        date_totals[date_s] += units.to_display(units.VOLUME, object.amount)
 
     dates = []  # Single array for each bar
     amounts = []  # Array of arrays containing amounts
@@ -39,7 +40,7 @@ def pumping_amounts(objects):
             index_x = 0
         if len(amounts) == 0 or len(amounts) <= index_x:
             amounts.append([0] * len(date_totals.keys()))
-        amounts[index_x][index_y] = object.amount
+        amounts[index_x][index_y] = units.to_display(units.VOLUME, object.amount)
         index_x += 1
 
     traces = []
@@ -59,7 +60,7 @@ def pumping_amounts(objects):
     layout_args["title"] = "<b>" + _("Total Pumping Amount") + "</b>"
     layout_args["xaxis"]["title"] = _("Date")
     layout_args["xaxis"]["rangeselector"] = utils.rangeselector_date()
-    layout_args["yaxis"]["title"] = _("Pumping Amount")
+    layout_args["yaxis"]["title"] = units.axis_label(_("Pumping Amount"), units.VOLUME)
 
     total_labels = [
         {"x": x, "y": total * 1.1, "text": str(total), "showarrow": False}

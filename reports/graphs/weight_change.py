@@ -6,6 +6,7 @@ from django.db.models.manager import BaseManager
 import plotly.offline as plotly
 import plotly.graph_objs as go
 
+from babybuddy import units
 from reports import utils
 
 
@@ -22,7 +23,9 @@ def weight_change(
     actual_weights = actual_weights.order_by("-date")
 
     weighing_dates: list[datetime] = list(actual_weights.values_list("date", flat=True))
-    measured_weights = list(actual_weights.values_list("weight", flat=True))
+    measured_weights = units.convert_list(
+        units.WEIGHT, actual_weights.values_list("weight", flat=True)
+    )
 
     actual_weights_trace = go.Scatter(
         name=_("Weight"),
@@ -48,31 +51,41 @@ def weight_change(
         percentile_weight_3_trace = go.Scatter(
             name=_("P3"),
             x=dates,
-            y=list(percentile_weights.values_list("p3_weight", flat=True)),
+            y=units.convert_list(
+                units.WEIGHT, percentile_weights.values_list("p3_weight", flat=True)
+            ),
             line={"color": "red"},
         )
         percentile_weight_15_trace = go.Scatter(
             name=_("P15"),
             x=dates,
-            y=list(percentile_weights.values_list("p15_weight", flat=True)),
+            y=units.convert_list(
+                units.WEIGHT, percentile_weights.values_list("p15_weight", flat=True)
+            ),
             line={"color": "orange"},
         )
         percentile_weight_50_trace = go.Scatter(
             name=_("P50"),
             x=dates,
-            y=list(percentile_weights.values_list("p50_weight", flat=True)),
+            y=units.convert_list(
+                units.WEIGHT, percentile_weights.values_list("p50_weight", flat=True)
+            ),
             line={"color": "green"},
         )
         percentile_weight_85_trace = go.Scatter(
             name=_("P85"),
             x=dates,
-            y=list(percentile_weights.values_list("p85_weight", flat=True)),
+            y=units.convert_list(
+                units.WEIGHT, percentile_weights.values_list("p85_weight", flat=True)
+            ),
             line={"color": "orange"},
         )
         percentile_weight_97_trace = go.Scatter(
             name=_("P97"),
             x=dates,
-            y=list(percentile_weights.values_list("p97_weight", flat=True)),
+            y=units.convert_list(
+                units.WEIGHT, percentile_weights.values_list("p97_weight", flat=True)
+            ),
             line={"color": "red"},
         )
 
@@ -84,7 +97,7 @@ def weight_change(
     layout_args["title"] = "<b>" + _("Weight") + "</b>"
     layout_args["xaxis"]["title"] = _("Date")
     layout_args["xaxis"]["rangeselector"] = utils.rangeselector_date()
-    layout_args["yaxis"]["title"] = _("Weight")
+    layout_args["yaxis"]["title"] = units.axis_label(_("Weight"), units.WEIGHT)
     if percentile_weights:
         # zoom in on the relevant dates
         layout_args["xaxis"]["range"] = [

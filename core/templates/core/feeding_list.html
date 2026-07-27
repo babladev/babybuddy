@@ -1,5 +1,5 @@
 {% extends 'babybuddy/page.html' %}
-{% load datetime duration misc i18n widget_tweaks %}
+{% load datetime duration i18n misc units widget_tweaks %}
 {% block title %}
     {% trans "Feedings" %}
 {% endblock %}
@@ -68,7 +68,7 @@
                             {% endif %}
                             <td>{{ feeding.get_method_display }}</td>
                             <td>{{ feeding.get_type_display }}</td>
-                            <td>{% if feeding.amount %}{{ feeding.amount }}{% endif %}</td>
+                            <td>{% if feeding.amount %}{{ feeding.amount|as_volume }}{% endif %}</td>
                             <td>{{ feeding.duration|duration_string }}</td>
                             <td>
                                 {% if prev_feeding %}

@@ -6,6 +6,7 @@ from django.db.models.manager import BaseManager
 import plotly.offline as plotly
 import plotly.graph_objs as go
 
+from babybuddy import units
 from reports import utils
 
 
@@ -24,7 +25,9 @@ def height_change(
     measuring_dates: list[datetime] = list(
         actual_heights.values_list("date", flat=True)
     )
-    measured_heights = list(actual_heights.values_list("height", flat=True))
+    measured_heights = units.convert_list(
+        units.LENGTH, actual_heights.values_list("height", flat=True)
+    )
 
     actual_heights_trace = go.Scatter(
         name=_("Height"),
@@ -50,31 +53,41 @@ def height_change(
         percentile_height_3_trace = go.Scatter(
             name=_("P3"),
             x=dates,
-            y=list(percentile_heights.values_list("p3_height", flat=True)),
+            y=units.convert_list(
+                units.LENGTH, percentile_heights.values_list("p3_height", flat=True)
+            ),
             line={"color": "red"},
         )
         percentile_height_15_trace = go.Scatter(
             name=_("P15"),
             x=dates,
-            y=list(percentile_heights.values_list("p15_height", flat=True)),
+            y=units.convert_list(
+                units.LENGTH, percentile_heights.values_list("p15_height", flat=True)
+            ),
             line={"color": "orange"},
         )
         percentile_height_50_trace = go.Scatter(
             name=_("P50"),
             x=dates,
-            y=list(percentile_heights.values_list("p50_height", flat=True)),
+            y=units.convert_list(
+                units.LENGTH, percentile_heights.values_list("p50_height", flat=True)
+            ),
             line={"color": "green"},
         )
         percentile_height_85_trace = go.Scatter(
             name=_("P85"),
             x=dates,
-            y=list(percentile_heights.values_list("p85_height", flat=True)),
+            y=units.convert_list(
+                units.LENGTH, percentile_heights.values_list("p85_height", flat=True)
+            ),
             line={"color": "orange"},
         )
         percentile_height_97_trace = go.Scatter(
             name=_("P97"),
             x=dates,
-            y=list(percentile_heights.values_list("p97_height", flat=True)),
+            y=units.convert_list(
+                units.LENGTH, percentile_heights.values_list("p97_height", flat=True)
+            ),
             line={"color": "red"},
         )
 
@@ -86,7 +99,7 @@ def height_change(
     layout_args["title"] = "<b>" + _("Height") + "</b>"
     layout_args["xaxis"]["title"] = _("Date")
     layout_args["xaxis"]["rangeselector"] = utils.rangeselector_date()
-    layout_args["yaxis"]["title"] = _("Height")
+    layout_args["yaxis"]["title"] = units.axis_label(_("Height"), units.LENGTH)
     if percentile_heights:
         # zoom in on the relevant dates
         layout_args["xaxis"]["range"] = [

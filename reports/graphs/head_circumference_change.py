@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 import plotly.offline as plotly
 import plotly.graph_objs as go
 
+from babybuddy import units
 from reports import utils
 
 
@@ -18,7 +19,9 @@ def head_circumference_change(objects):
     trace = go.Scatter(
         name=_("Head Circumference"),
         x=list(objects.values_list("date", flat=True)),
-        y=list(objects.values_list("head_circumference", flat=True)),
+        y=units.convert_list(
+            units.LENGTH, objects.values_list("head_circumference", flat=True)
+        ),
         fill="tozeroy",
     )
 
@@ -27,7 +30,9 @@ def head_circumference_change(objects):
     layout_args["title"] = "<b>" + _("Head Circumference") + "</b>"
     layout_args["xaxis"]["title"] = _("Date")
     layout_args["xaxis"]["rangeselector"] = utils.rangeselector_date()
-    layout_args["yaxis"]["title"] = _("Head Circumference")
+    layout_args["yaxis"]["title"] = units.axis_label(
+        _("Head Circumference"), units.LENGTH
+    )
 
     fig = go.Figure({"data": [trace], "layout": go.Layout(**layout_args)})
     output = plotly.plot(fig, output_type="div", include_plotlyjs=False)

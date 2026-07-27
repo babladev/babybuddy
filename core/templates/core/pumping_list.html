@@ -1,5 +1,5 @@
 {% extends 'babybuddy/page.html' %}
-{% load datetime duration misc i18n widget_tweaks %}
+{% load datetime duration i18n misc units widget_tweaks %}
 {% block title %}
     {% trans "Pumping" %}
 {% endblock %}
@@ -59,7 +59,7 @@
                                     <a href="{% url 'core:child' pumping.child.slug %}">{{ pumping.child }}</a>
                                 </td>
                             {% endif %}
-                            <td>{{ pumping.amount }}</td>
+                            <td>{{ pumping.amount|as_volume }}</td>
                             <td>{{ pumping.duration|duration_string }}</td>
                             <td>
                                 {% if prev_pumping %}

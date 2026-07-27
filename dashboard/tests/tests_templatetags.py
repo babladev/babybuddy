@@ -320,12 +320,14 @@ class TemplateTagsTestCase(TestCase):
                 "stat": timezone.timedelta(0, 18000),
                 "type": "duration",
             },
-            {"title": "Weight change per week", "stat": 1.0, "type": "float"},
-            {"title": "Height change per week", "stat": 1.0, "type": "float"},
+            # Measurement statistics carry their measurement kind so the card can
+            # format them in the configured unit system.
+            {"title": "Weight change per week", "stat": 1.0, "type": "weight"},
+            {"title": "Height change per week", "stat": 1.0, "type": "length"},
             {
                 "title": "Head circumference change per week",
                 "stat": 1.0,
-                "type": "float",
+                "type": "length",
             },
             {"title": "BMI change per week", "stat": 1.0, "type": "float"},
         ]

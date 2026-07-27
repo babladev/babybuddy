@@ -1,5 +1,5 @@
 {% extends 'babybuddy/page.html' %}
-{% load i18n widget_tweaks %}
+{% load i18n units widget_tweaks %}
 {% block title %}
     {% trans "Height" %}
 {% endblock %}
@@ -56,7 +56,7 @@
                                 <a href="{% url 'core:child' height.child.slug %}">{{ height.child }}</a>
                             </td>
                         {% endif %}
-                        <td>{{ height.height }}</td>
+                        <td>{{ height.height|as_length }}</td>
                         <td>{% include "core/render_tag_list.html" with tags=height.tags.all %}</td>
                     </tr>
                     {% if height.notes %}

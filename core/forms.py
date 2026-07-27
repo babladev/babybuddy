@@ -3,10 +3,12 @@ from django import forms
 from django.forms import widgets
 from django.conf import settings
 from django.utils import timezone
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
 from taggit.forms import TagField
 
+from babybuddy import units
 from babybuddy.widgets import DateInput, DateTimeInput, TimeInput
 from core import models
 from core.models import Timer
@@ -133,6 +135,50 @@ class CoreModelForm(forms.ModelForm):
         return hydrated_fieldsets
 
 
+class MeasurementModelForm(forms.ModelForm):
+    """
+    Converts measurement fields between the configured display units and the
+    metric units used for storage.
+
+    Subclasses declare which of their fields hold measurements:
+
+        measurement_fields = {"weight": units.WEIGHT}
+
+    The field label gains the unit abbreviation, an existing value is shown in
+    display units, and whatever is entered is converted back to metric before
+    the instance is built.
+    """
+
+    measurement_fields = {}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name, kind in self.measurement_fields.items():
+            field = self.fields.get(name)
+            if not field:
+                continue
+            field.label = format_lazy(
+                "{label} ({unit})",
+                label=field.label,
+                unit=units.abbreviation(kind),
+            )
+            # Show a stored value in the unit the user is working in. This runs
+            # after super().__init__, which is where ModelForm populates
+            # self.initial from the instance.
+            value = self.initial.get(name)
+            if value is not None:
+                self.initial[name] = round(
+                    units.to_display(kind, value), units.precision(kind)
+                )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        for name, kind in self.measurement_fields.items():
+            if cleaned_data.get(name) is not None:
+                cleaned_data[name] = units.to_storage(kind, cleaned_data[name])
+        return cleaned_data
+
+
 class TaggableModelForm(forms.ModelForm):
     tags = TagField(
         label=_("Tags"),
@@ -164,7 +210,9 @@ class BMIForm(CoreModelForm, TaggableModelForm):
         }
 
 
-class BottleFeedingForm(CoreModelForm, TaggableModelForm):
+class BottleFeedingForm(MeasurementModelForm, CoreModelForm, TaggableModelForm):
+    measurement_fields = {"amount": units.VOLUME}
+
     fieldsets = [
         {"fields": ["child", "type", "start", "amount"], "layout": "required"},
         {"fields": ["notes", "tags"], "layout": "advanced"},
@@ -252,7 +300,9 @@ class DiaperChangeForm(CoreModelForm, TaggableModelForm):
         }
 
 
-class FeedingForm(CoreModelForm, TaggableModelForm):
+class FeedingForm(MeasurementModelForm, CoreModelForm, TaggableModelForm):
+    measurement_fields = {"amount": units.VOLUME}
+
     fieldsets = [
         {"fields": ["child", "start", "end", "type", "method"], "layout": "required"},
         {"fields": ["amount"]},
@@ -272,7 +322,9 @@ class FeedingForm(CoreModelForm, TaggableModelForm):
         }
 
 
-class HeadCircumferenceForm(CoreModelForm, TaggableModelForm):
+class HeadCircumferenceForm(MeasurementModelForm, CoreModelForm, TaggableModelForm):
+    measurement_fields = {"head_circumference": units.LENGTH}
+
     fieldsets = [
         {
             "fields": ["child", "head_circumference", "date"],
@@ -291,7 +343,9 @@ class HeadCircumferenceForm(CoreModelForm, TaggableModelForm):
         }
 
 
-class HeightForm(CoreModelForm, TaggableModelForm):
+class HeightForm(MeasurementModelForm, CoreModelForm, TaggableModelForm):
+    measurement_fields = {"height": units.LENGTH}
+
     fieldsets = [
         {
             "fields": ["child", "height", "date"],
@@ -367,7 +421,9 @@ class MedicationForm(CoreModelForm, TaggableModelForm):
         return None
 
 
-class PumpingForm(CoreModelForm, TaggableModelForm):
+class PumpingForm(MeasurementModelForm, CoreModelForm, TaggableModelForm):
+    measurement_fields = {"amount": units.VOLUME}
+
     fieldsets = [
         {"fields": ["child", "start", "end"], "layout": "required"},
         {"fields": ["amount"]},
@@ -436,7 +492,9 @@ class TagAdminForm(CoreModelForm):
         }
 
 
-class TemperatureForm(CoreModelForm, TaggableModelForm):
+class TemperatureForm(MeasurementModelForm, CoreModelForm, TaggableModelForm):
+    measurement_fields = {"temperature": units.TEMPERATURE}
+
     fieldsets = [
         {
             "fields": ["child", "temperature", "time"],
@@ -492,7 +550,9 @@ class TummyTimeForm(CoreModelForm, TaggableModelForm):
         }
 
 
-class WeightForm(CoreModelForm, TaggableModelForm):
+class WeightForm(MeasurementModelForm, CoreModelForm, TaggableModelForm):
+    measurement_fields = {"weight": units.WEIGHT}
+
     fieldsets = [
         {
             "fields": ["child", "weight", "date"],

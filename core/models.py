@@ -15,7 +15,11 @@ from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager as TaggitTaggableManager
 from taggit.models import GenericTaggedItemBase, TagBase
 
-from babybuddy.site_settings import NapSettings, FeedingSettings
+from babybuddy.site_settings import (
+    FeedingSettings,
+    MeasurementSettings,
+    NapSettings,
+)
 from core.utils import random_color, timezone_aware_duration
 
 
@@ -205,6 +209,10 @@ class Child(models.Model):
     )
 
     objects = models.Manager()
+
+    # Measurement units apply to every model, so the setting is attached here
+    # rather than duplicated on each one.
+    settings = MeasurementSettings(_("Measurement settings"))
 
     cache_key_count = "core.child.count"
 
