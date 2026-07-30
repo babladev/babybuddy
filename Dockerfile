@@ -55,6 +55,10 @@ RUN apt-get update \
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:${PATH}"
 
+# The setuptools bundled with the interpreter carries known advisories, and it
+# is copied into the runtime image along with the rest of the virtualenv.
+RUN pip install --upgrade pip setuptools
+
 COPY requirements.txt ./
 RUN pip install -r requirements.txt
 
