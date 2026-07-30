@@ -14,11 +14,11 @@ through the newborn period, then month by month.
 
 Every entry is placed on the timeline by a scale and a period:
 
-| Scale      | Period means                | Example                        |
-| ---------- | --------------------------- | ------------------------------ |
-| `prenatal` | days before the due date    | `30` is a month before the due date |
-| `day`      | days since the birth date   | `0` is the day of birth        |
-| `month`    | month of life, from 1       | `1` is birth up to one month old |
+| Scale      | Period means              | Example                             |
+| ---------- | ------------------------- | ----------------------------------- |
+| `prenatal` | days before the due date  | `30` is a month before the due date |
+| `day`      | days since the birth date | `0` is the day of birth             |
+| `month`    | month of life, from 1     | `1` is birth up to one month old    |
 
 Periods do not have to be contiguous. When nothing is written for the exact day, the most
 recent earlier period applies. This is why daily content can stop at day 30 and the

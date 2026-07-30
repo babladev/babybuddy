@@ -3,12 +3,12 @@
 Baby Buddy can work in metric or US customary units. The choice is under
 _Site Settings_ (the user menu, staff only) as **Unit system**:
 
-| Measurement                       | Metric | US customary |
-| --------------------------------- | ------ | ------------ |
-| Weight                            | kg     | lb           |
-| Height, head circumference        | cm     | in           |
-| Feeding and pumping amounts       | ml     | fl oz        |
-| Temperature                       | °C     | °F           |
+| Measurement                 | Metric | US customary |
+| --------------------------- | ------ | ------------ |
+| Weight                      | kg     | lb           |
+| Height, head circumference  | cm     | in           |
+| Feeding and pumping amounts | ml     | fl oz        |
+| Temperature                 | °C     | °F           |
 
 ## How it works
 

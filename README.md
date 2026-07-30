@@ -4,10 +4,34 @@
 
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/babybuddy/Lobby)
-[![CI Status](https://github.com/babybuddy/babybuddy/actions/workflows/ci.yml/badge.svg)](https://github.com/babybuddy/babybuddy/actions/workflows/ci.yml)
-[![Coverage Status](https://coveralls.io/repos/github/babybuddy/babybuddy/badge.svg?branch=master)](https://coveralls.io/github/babybuddy/babybuddy?branch=master)
-[![Open in GitHub Codespaces ready-to-code](https://img.shields.io/badge/Codespace-ready--to--code-blue?logo=github)](https://codespaces.new/babybuddy/babybuddy?quickstart=1)
+[![CI Status](https://github.com/babladev/babybuddy/actions/workflows/ci.yml/badge.svg)](https://github.com/babladev/babybuddy/actions/workflows/ci.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+> ### This is a customised fork
+>
+> A personal fork of [babybuddy/babybuddy](https://github.com/babybuddy/babybuddy) for
+> self-hosting, not the upstream project. **Report bugs and ask for support upstream,
+> not here** - anything broken in this fork is most likely something changed in it.
+>
+> What differs from upstream:
+>
+> - **Self-hosted Docker stack.** A `Dockerfile` and `docker-compose.yml` that build the
+>   app and run it behind Caddy for TLS, as an unprivileged user with a read-only root
+>   filesystem. See [deployment](docs/setup/deployment.md).
+> - **Security fixes.** No well-known default password, HSTS and secure-cookie settings,
+>   REST API rate limiting, and uploaded photos served only to logged-in users. See
+>   [security configuration](docs/configuration/security.md).
+> - **Rebuilt interface.** A rounded, layered design language that follows the system
+>   light or dark setting, a bottom tab bar and floating action button on phones, and a
+>   per-user appearance preference.
+> - **Units.** A site-wide metric or US customary setting, with values stored in metric.
+>   See [units](docs/user-guide/units.md).
+> - **Parenting guidance.** Things to do, watch for and expect, from a month before the
+>   birth through the newborn days and then month by month, with recaps drawn from logged
+>   data. See [guidance](docs/user-guide/guidance.md).
+>
+> Upstream is BSD-2-Clause licensed and that licence is unchanged here. Sponsorship links
+> point at the upstream project, which is where the credit belongs.
 
 A buddy for babies! Helps caregivers track sleep, feedings, diaper changes,
 tummy time and more to learn about and predict baby's needs without (_as much_)

@@ -2,8 +2,16 @@
 .coverage
 /htmlcov
 
-# Environment configuration file.
+# Environment configuration files. These hold the real SECRET_KEY and any
+# database or SMTP credentials, so every variant is excluded and only the
+# documented example is tracked.
 .env
+.env.*
+!.env.example
+
+# Local application data (SQLite database, uploaded media) from the Docker
+# stack's bind mount.
+/babybuddy-data
 
 # Virtual environment files (pipenv may use this convention).
 .venv
