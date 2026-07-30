@@ -15,6 +15,9 @@ on:
   pull_request:
     branches:
       - master
+  # Lets the workflow be started by hand from the Actions tab, which is useful
+  # on a fork where GitHub suppresses automatic runs until they are enabled.
+  workflow_dispatch:
 
 # Nothing here needs to write to the repository.
 permissions:
